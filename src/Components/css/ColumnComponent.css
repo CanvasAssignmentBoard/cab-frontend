@@ -1,0 +1,8 @@
+.column-div{
+    width: 30vw;
+    height: 90vh;
+    margin: auto;
+    background: #FFF;
+    border-radius: 8px;
+    border: 2px dashed darkgrey;
+}
