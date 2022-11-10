@@ -5,12 +5,6 @@ import TaskComponent from "./TaskComponent";
 
 export default function ColumnComponent(columnInfo) {
 
-    const getTaskCount = (taskArray) => {
-        return(
-            taskArray.length
-        )
-    };
-
     return(
         <div className={"column-div"}>
             <ColumnHeaderComponent
