@@ -1,0 +1,8 @@
+.task-div{
+    width: 95%;
+    height: 20vh;
+    margin: auto;
+    background: #FFF;
+    border-radius: 8px;
+    border: 1px solid darkgrey;
+}

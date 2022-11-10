@@ -4,6 +4,10 @@ import ColumnComponent from "./ColumnComponent";
 
 export default function BoardComponent() {
 
+    const taskArrayA = ["a"];
+    const taskArrayB = ["b"];
+    const taskArrayC = ["c"];
+
     const getTaskCount = (taskArray) => {
         return(
             taskArray.length
@@ -14,15 +18,15 @@ export default function BoardComponent() {
         <div className={"board-div grid grid-cols-3 gap-4"}>
             <ColumnComponent
                 columnName={"🔵 To Do"}
-                taskCount={getTaskCount(["a"])}
+                taskCount={getTaskCount(taskArrayA)}
             />
             <ColumnComponent
                 columnName={"🔴 In Progress"}
-                taskCount={getTaskCount(["a"])}
+                taskCount={getTaskCount(taskArrayB)}
             />
             <ColumnComponent
                 columnName={"⚪ Done"}
-                taskCount={getTaskCount(["a"])}
+                taskCount={getTaskCount(taskArrayC)}
             />
         </div>
     )

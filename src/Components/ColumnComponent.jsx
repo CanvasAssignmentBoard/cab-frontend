@@ -1,6 +1,7 @@
 import React from 'react';
 import "./css/ColumnComponent.css";
 import ColumnHeaderComponent from "./ColumnHeaderComponent";
+import TaskComponent from "./TaskComponent";
 
 export default function ColumnComponent(columnInfo) {
 
@@ -16,7 +17,7 @@ export default function ColumnComponent(columnInfo) {
                 columnInfo={columnInfo.columnName}
                 taskCount={columnInfo.taskCount}
             />
-        {/*BoardTasks*/}
+            <TaskComponent></TaskComponent>
         </div>
     )
 }
