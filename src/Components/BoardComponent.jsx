@@ -15,7 +15,7 @@ export default function BoardComponent() {
     };
 
     return(
-        <div className={"board-div grid grid-cols-3 gap-4"}>
+        <div data-testid="required-column-list" className={"board-div grid grid-cols-3 gap-4"}>
             <ColumnComponent
                 columnName={"🔵 To Do"}
                 taskCount={getTaskCount(taskArrayA)}
