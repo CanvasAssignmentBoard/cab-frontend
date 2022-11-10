@@ -1,0 +1,28 @@
+name: Dev-Deploy
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+on:
+  push:
+    branches: [ "dev", 'v*', 'v*.*.*' ]
+    # Publish semver tags as releases.
+    tags: [ 'v*.*.*' ]
+jobs:
+  Tests:
+    if: github.event.pull_request.merged == false
+    secrets: inherit
+    uses: ./.github/workflows/tests.yml  # use the callable tests job to run test
+  Deploy:
+    if: github.event.pull_request.merged == false
+    needs: Tests
+    secrets: inherit
+    uses: ./.github/workflows/docker.yml
+  CodeQuality:
+    if: github.event.pull_request.merged == false
+    needs: Tests
+    secrets: inherit
+    uses: ./.github/workflows/SonarCloud.yml
+  

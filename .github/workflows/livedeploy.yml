@@ -1,0 +1,16 @@
+name: Deploy-Live
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [ "live"]
+jobs:
+  Deploy:
+    if: github.event.pull_request.merged == true
+    secrets: inherit
+    uses: ./.github/workflows/docker.yml
