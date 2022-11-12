@@ -1,0 +1,9 @@
+.create-assignment-button{
+    background: #1C1D22;
+    width: 200px;
+    padding: 0.25rem;
+    color: white;
+    border-radius: 19px;
+    transition: 0.2s;
+    cursor: pointer;
+}
