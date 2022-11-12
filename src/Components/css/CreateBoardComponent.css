@@ -1,0 +1,10 @@
+.create-board-button{
+    color: rgba(28, 29, 34);
+    opacity: 0.25;
+    transition: 0.2s;
+    cursor: pointer;
+}
+
+.create-board-button:hover{
+    opacity: 1;
+}

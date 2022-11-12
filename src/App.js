@@ -1,10 +1,10 @@
 import './App.css';
-import BoardComponent from "./Components/BoardComponent";
+import CreateBoardButtonComponent from "./Components/CreateBoardComponent";
 
 function App() {
   return (
     <>
-      <BoardComponent/>
+      <CreateBoardButtonComponent/>
     </>
   );
 }
