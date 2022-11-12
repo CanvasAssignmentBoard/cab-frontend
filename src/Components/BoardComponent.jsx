@@ -4,9 +4,10 @@ import ColumnComponent from "./ColumnComponent";
 
 export default function BoardComponent() {
 
-    const taskArrayA = ["a"];
-    const taskArrayB = ["b"];
-    const taskArrayC = ["c"];
+    const taskArrayA = [{name: "Create Figma Prototype", parent: "UI/UX Prototype", description: "Test description", progress: 0, deadlineDate: "24 Dec 2022", comments: 0, uploads: 0}
+        , {name: "d", description: "Test description"}];
+    const taskArrayB = [{name: "b", description: "Test description"}];
+    const taskArrayC = [{name: "c", description: "Test description"}];
 
     const getTaskCount = (taskArray) => {
         return(
@@ -19,14 +20,17 @@ export default function BoardComponent() {
             <ColumnComponent
                 columnName={"🔵 To Do"}
                 taskCount={getTaskCount(taskArrayA)}
+                tasks={taskArrayA}
             />
             <ColumnComponent
                 columnName={"🔴 In Progress"}
                 taskCount={getTaskCount(taskArrayB)}
+                tasks={taskArrayB}
             />
             <ColumnComponent
                 columnName={"⚪ Done"}
                 taskCount={getTaskCount(taskArrayC)}
+                tasks={taskArrayC}
             />
         </div>
     )

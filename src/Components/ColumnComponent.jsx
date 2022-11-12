@@ -11,7 +11,14 @@ export default function ColumnComponent(columnInfo) {
                 columnInfo={columnInfo.columnName}
                 taskCount={columnInfo.taskCount}
             />
-            <TaskComponent></TaskComponent>
+            {
+                columnInfo.tasks.map(task => {
+                    return (
+                        <TaskComponent task={task}/>
+                            )
+                    }
+                )
+            }
         </div>
     )
 }

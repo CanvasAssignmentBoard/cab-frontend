@@ -2,7 +2,8 @@
     width: 30vw;
     height: 90vh;
     margin: auto;
-    background: #FFF;
-    border-radius: 8px;
-    border: 2px dashed darkgrey;
+    padding: 10px;
+    background: #FFFFFF;
+    border: 2px dashed rgba(28, 29, 34, 0.08);
+    border-radius: 12px;
 }
