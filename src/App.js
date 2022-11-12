@@ -1,10 +1,10 @@
 import './App.css';
-import CreateBoardButtonComponent from "./Components/CreateBoardComponent";
+import CreateAssignmentComponent from "./Components/CreateAssignmentComponent";
 
 function App() {
   return (
     <>
-      <CreateBoardButtonComponent/>
+      <CreateAssignmentComponent/>
     </>
   );
 }
