@@ -5,10 +5,6 @@ import "./css/CreateAssignmentComponent.css";
 export default function CreateAssignmentComponent() {
     const [showModal, setShowModal] = React.useState(false);
 
-    function myFunction() {
-        console.log(document.getElementById("assignmentName"));
-    }
-
     return (
         <>
             <button
