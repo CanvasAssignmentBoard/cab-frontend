@@ -8,3 +8,29 @@
 .create-board-button:hover{
     opacity: 1;
 }
+
+.course-card-div {
+    max-width: 100%;
+    overflow-x: auto;
+    margin-bottom: 5px;
+}
+
+.course-card {
+    min-width: 10rem;
+    max-width: 10rem;
+    width: 10rem;
+}
+
+.course-card-selected {
+    min-width: 10rem;
+    max-width: 10rem;
+    border: 2px red solid;
+    width: 10rem;
+}
+
+.course-card-img{
+    width: 10rem;
+    height: 8rem;
+    object-fit: cover;
+}
+
