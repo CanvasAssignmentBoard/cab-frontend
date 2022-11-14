@@ -37,7 +37,7 @@ export default function CreateAssignmentComponent() {
                                 </div>
                                 {/*body*/}
                                 <div className="py-6 px-6 lg:px-8">
-                                    <form className="space-y-6" onSubmit={myFunction}>
+                                    <form className="space-y-6">
                                         <div>
                                             <label htmlFor="assignmentName"
                                                    className="block mb-2 text-sm font-medium text-black-900 dark:text-gray-300">Assignment
