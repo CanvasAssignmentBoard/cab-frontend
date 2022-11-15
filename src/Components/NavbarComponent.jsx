@@ -13,7 +13,7 @@ export default function NavbarComponent(props){
         {boardName: 'Done', boardID: 3}
     ];
     return <div className={"navbar-container"}>
-        <NavbarListComponent title={'Boards'} boards={[allBoards]}/>
-        <NavbarListComponent title={'Tasks'} boards={[allTasks]}/>
+        <NavbarListComponent title={'Boards'} boards={allBoards}/>
+        <NavbarListComponent title={'Tasks'} boards={allTasks}/>
     </div>
 }

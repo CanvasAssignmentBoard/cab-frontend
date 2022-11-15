@@ -1,7 +1,7 @@
 import './css/NavbarListComponent.css'
 import {useState} from "react";
 export default function NavbarListComponent(props){
-    const [showItems, setShowItems] = useState(false);
+    const [showItems, setShowItems] = useState(true);
     const [selectedItem, setSelectedItem] = useState(props.boards[0]);
 
     return <div className={'list-container'}>
@@ -18,10 +18,10 @@ export default function NavbarListComponent(props){
             }
         </div>
         {showItems ? <div className={'boards'}>
-            {props.boards.map((board, i) => {return (
+            {props.boards.map((board) => {return (
 
             <div className={board === selectedItem ? 'board-selected-item' : 'board-item'} onClick={() => {setSelectedItem(board)}}>
-                {board[i].boardName}
+                {board.boardName}
             </div>)})}
 
         </div> : null}
