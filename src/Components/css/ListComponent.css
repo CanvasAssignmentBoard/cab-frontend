@@ -1,0 +1,41 @@
+
+.tasklist-item {
+    padding: 1rem;
+    margin: 0.5rem;
+    border: 1px solid #e6e6e6;
+    border-radius: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.tasklist-item-title {
+    font-size: 0.9rem;
+    font-weight: 800;
+}
+
+.tasklist-item-subtitle {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #999999;
+}
+.tasklist-item-content {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #999999;
+    display: flex;
+    gap: 1rem;
+}
+
+.tasklist-group-header-title {
+    color: #999999;
+}
+.tasklist-group-header {
+    padding: 0 0.5rem 0.5rem 0.5rem;
+    display: flex;
+}
+
+.tasklist {
+    padding: 0.5rem;
+    border: 1px dashed #e6e6e6;
+    border-radius: 0.5rem;
+}
