@@ -68,19 +68,10 @@ export default function CreateBoardComponent() {
                                                       placeholder="Type your board description here"/>
                                         </div>
                                         <div>
-                                            <div className="w-full mr-1">
-                                                <label htmlFor="includedCourses"
-                                                       className="block mb-2 text-sm font-medium text-black-900 dark:text-gray-300">Courses *</label>
-                                                <select id="includedCourses"
-                                                        name="includedCourses"
-                                                        required
-                                                        multiple
-                                                        defaultValue=""
-                                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                                    {selectedCards.map((course) => {
-                                                        return (<option className={"ml-5"} value={course}>{course}</option>)
+                                            <div className="bg-gray-50 flex border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                                {selectedCards.map((course) => {
+                                                        return (<p className={"selected-course-pill"}>{course}</p>)
                                                     })}
-                                                </select>
                                             </div>
                                         </div>
                                         <div className={"course-card-div flex space-x-5 "}>
@@ -118,24 +109,20 @@ export default function CreateBoardComponent() {
                                             </button>
                                             <button
                                                 className="bg-blue-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                                                type="submit"
+                                                type="button"
                                                 onClick={() =>{
                                                     console.log(
                                                         "API Call: " +
                                                         "\n Board Name: " +
                                                         document.getElementById("boardName").value
-                                                        + "\n Board Status: " +
-                                                        document.getElementById("boardStatus").value
-                                                        + "\n Course ID: " +
-                                                        document.getElementById("courseName").value
                                                         + "\n Board Description: " +
                                                         document.getElementById("boardDescription").value
-                                                        + "\n Submission Type: " +
-                                                        document.getElementById("submissionType").value
+                                                        + "\n Board Courses: " +
+                                                        selectedCards
                                                         + "\n created_at: " +
                                                         "22/12/2022"
                                                     );
-                                                    setShowModal(false);
+                                                    // setShowModal(false);
                                                 }}
                                             >
                                                 Save
