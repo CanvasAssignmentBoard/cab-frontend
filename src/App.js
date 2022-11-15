@@ -1,10 +1,10 @@
 import './App.css';
-import Branchable from "./components/sidebar/branchable";
+import NavbarComponent from "./components/NavbarComponent";
 
 function App() {
   return (
     <div>
-      <Branchable title={'Boards'} boards={['Board 1', 'Board 2', 'Board 3']}/>
+      <NavbarComponent/>
     </div>
   );
 }
