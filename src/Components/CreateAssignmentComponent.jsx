@@ -8,6 +8,7 @@ export default function CreateAssignmentComponent() {
     return (
         <>
             <button
+                className={"pb-4 ml-4"}
                 type="button"
                 onClick={() => setShowModal(true)}
             >

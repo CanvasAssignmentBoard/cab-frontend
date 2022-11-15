@@ -21,14 +21,17 @@ function deadlineColor(date) {
 }
 export default function ListComponent() {
 
-    const [selected, setSelected] = useState(null);
+    const [selected, setSelected] = useState([0, 1, 2]);
 
-    const toggle =  (i) => {
-        if (selected === i) {
-            return setSelected(null);
+
+    const handleToggle = React.useCallback((i) => {
+        if(selected.includes(i)) {
+            setSelected(selected => selected.splice(i, 1));
+        } else {
+            let newSelection = [...selected.push(i)];
+            setSelected(newSelection);
         }
-        setSelected(i);
-    };
+    }, [selected]);
 
     const currentDate = new Date();
 
@@ -37,13 +40,13 @@ export default function ListComponent() {
             <ul className="tasklist">
                 {dataStatus.map((status, ci) => (
                     <li key={ci} className="tasklist-group text-sm">
-                        <div className="tasklist-group-header" onClick={() => toggle(ci)}>
+                        <div className="tasklist-group-header" onClick={() => console.log(ci)}>
                             <div className="tasklist-group-header-title">
                                 {status.name} ({dataAssignment.filter(assignment => assignment.status === status.name).length})
                             </div>
-                            {selected === ci ? <IoMdArrowDropdown size={20}/> : <IoMdArrowDropright size={20}/>}
+                            {selected.includes(ci) === true ? <IoMdArrowDropdown size={20}/> : <IoMdArrowDropright size={20}/>}
                         </div>
-                        {selected === ci && (
+                        {selected.includes(ci) === true && (
                             <ul>
                                 {dataAssignment.filter(assignment => {
                                     return assignment.status === status.name;
@@ -54,7 +57,7 @@ export default function ListComponent() {
                                                 {assignment.name}
                                             </div>
                                             <div className="tasklist-item-subtitle">
-                                                {assignment.category}
+                                                {assignment.parent}
                                             </div>            
                                         </div>
                                         <div className="tasklist-item-content">
@@ -96,6 +99,7 @@ const dataAssignment = [
     {
         id: 1,
         name: "Create Figma Prototype",
+        parent: "OL-N22-CMK",
         category: "UI/UX Prototype",
         status: "To do",
         description: "Test description",
@@ -104,7 +108,7 @@ const dataAssignment = [
                 id: 1,
                 name: "Create basic layout",
                 description: "Test description",
-                checked: true,
+                checked: false,
             },
             {
                 id: 1,
@@ -120,6 +124,7 @@ const dataAssignment = [
     {
         id: 2,
         name : "Subquestion 3 - How is the current software designed?",
+        parent: "INTERSHIP-COURSE",
         category: "Research Document",
         status: "To do", 
         description: "Test description",
@@ -132,6 +137,50 @@ const dataAssignment = [
             },
         ],
         deadlineDate: "24 Dec 2022",
+        comments: 0,
+        uploads: 0
+    },
+    {
+        id: 3,
+        name : "b",
+        parent: "INTERSHIP-COURSE",
+        category: "",
+        status: "In progress",
+        description: "Test description",
+        tasks: [
+            {
+                id: 1,
+                name: "Create basic layout",
+                description: "Test description",
+                checked: false,
+            },
+            {
+                id: 2,
+                name: "Create basic layout",
+                description: "Test description",
+                checked: true,
+            },
+        ],
+        deadlineDate: "24 Dec 2022",
+        comments: 0,
+        uploads: 0
+    },
+    {
+        id: 4,
+        name : "c",
+        category: "",
+        parent: "INTERSHIP-COURSE",
+        status: "Done",
+        description: "Test description",
+        tasks: [
+            {
+                id: 1,
+                name: "Create basic layout",
+                description: "Test description",
+                checked: true,
+            },
+        ],
+        deadlineDate: "14 Nov 2022",
         comments: 0,
         uploads: 0
     }

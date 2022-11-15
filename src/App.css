@@ -23,8 +23,12 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
+.Board-view-spacing{
+  width: 100%;
+}
 .App-header-spacing {
-  margin-bottom: 10vh;
+  margin-bottom: 0px;
 }
 .App-calendar {
   height: 30px;

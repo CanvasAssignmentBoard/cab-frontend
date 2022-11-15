@@ -8,11 +8,58 @@ export default function BoardComponent() {
     const [isLoaded, setIsLoaded] = useState(false);
     const [items, setItems] = useState([]);
 
-
-    const taskArrayA = [{name: "Create Figma Prototype", parent: "UI/UX Prototype", description: "Test description", progress: 0, deadlineDate: "24 Dec 2022", comments: 0, uploads: 0}
-    , {name: "d", description: "Test description"}];
-    const taskArrayB = [{name: "b", description: "Test description"}];
-    const taskArrayC = [{name: "c", description: "Test description"}];
+    const taskArrayA = [
+        {
+            id: 1,
+            parent: "OL-N22-CMK",
+            name: "Create Figma Prototype",
+            progress: 0,
+            category: "UI/UX Prototype",
+            status: "To do",
+            description: "Test description",
+            tasks: [
+                {
+                    id: 1,
+                    name: "Create basic layout",
+                    description: "Test description",
+                    checked: true,
+                },
+                {
+                    id: 1,
+                    name: "Create basic layout",
+                    description: "Test description",
+                    checked: false,
+                },
+            ],
+            deadlineDate: "18 Nov 2022",
+            comments: 0,
+            uploads: 0
+        },
+        {
+            id: 2,
+            name : "Subquestion 3 - How is the current software designed?",
+            parent: "INTERSHIP-COURSE",
+            category: "Research Document",
+            status: "To do",
+            progress: 0,
+            description: "Test description",
+            tasks: [
+                {
+                    id: 1,
+                    name: "Create basic layout",
+                    description: "Test description",
+                    checked: false,
+                },
+            ],
+            deadlineDate: "24 Dec 2022",
+            comments: 0,
+            uploads: 0
+        }
+    ];
+    const taskArrayB = [{name: "b", description: "Test description", progress: 50, deadlineDate: "24 Dec 2022", parent: "INTERSHIP-COURSE", comments: 1,
+        uploads: 2}];
+    const taskArrayC = [{name: "c", description: "Test description", progress: 100, deadlineDate: "14 Nov 2022", parent: "INTERSHIP-COURSE", comments: 3,
+        uploads: 4}];
 
     const getTaskCount = (taskArray) => {
         return(
@@ -40,7 +87,6 @@ export default function BoardComponent() {
     } else if (!isLoaded) {
         return <div>Loading...</div>;
     } else {
-
 
         return(
             <div data-testid="required-column-list" className={"board-div grid grid-cols-3 gap-4"}>

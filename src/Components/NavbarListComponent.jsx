@@ -19,10 +19,14 @@ export default function NavbarListComponent(props){
         </div>
         {showItems ? <div className={'boards'}>
             {props.boards.map((board) => {return (
+                board.disabled ?  <div className={'board-disabled-item'} >
+                    {board.boardName}
+                </div>
+                    : <div className={board === selectedItem ? 'board-selected-item' : 'board-item'} onClick={() => {setSelectedItem(board)}}>
+                    {board.boardName}
+                </div>
 
-            <div className={board === selectedItem ? 'board-selected-item' : 'board-item'} onClick={() => {setSelectedItem(board)}}>
-                {board.boardName}
-            </div>)})}
+            )})}
 
         </div> : null}
     </div>

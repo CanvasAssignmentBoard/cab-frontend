@@ -22,6 +22,7 @@ export default function CreateBoardComponent() {
     return (
         <>
             <button
+                className={"flex justify-end"}
                 type="button"
                 onClick={() => setShowModal(true)}
             >
@@ -68,9 +69,13 @@ export default function CreateBoardComponent() {
                                                       placeholder="Type your board description here"/>
                                         </div>
                                         <div>
-                                            <div className="bg-gray-50 flex border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                            <div className="bg-gray-50 h-14 flex border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                                 {selectedCards.map((course) => {
-                                                        return (<p className={"selected-course-pill"}>{course}</p>)
+                                                        return (<p onClick={() => {
+                                                            selectedCards.indexOf(course) > -1 ?
+                                                                handleRemoveItem(course) :
+                                                                setSelectedCards([...selectedCards, course]);
+                                                        }} className={"selected-course-pill"}>{course}</p>)
                                                     })}
                                             </div>
                                         </div>
