@@ -5,25 +5,25 @@ export default function NavbarListComponent(props){
     const [selectedItem, setSelectedItem] = useState(props.boards[0]);
 
     return <div className={'list-container'}>
-        <div className={'title'} onClick={() => setShowItems(!showItems)}>
+        <div className={'title'} onClick={() => setShowItems(!showItems) }>
             {props.title}
-            {setShowItems === true ?
-            <div className={'title-arrow'}>
-                >
-            </div>
+            {showItems === false ?
+                <div className={'title-arrow'}>
+                    >
+                </div>
             :
-            <div className={'title-arrow'}>
-                ˅
-            </div>
+                <div className={'title-arrow'}>
+                    ˅
+                </div>
             }
         </div>
         {showItems ? <div className={'boards'}>
-            {/*<div>All {props.title} ({props.boards.length})</div>*/}
-            {props.boards.map(item => <div className={item === selectedItem ? 'board-selected-item' : 'board-item'} onClick={() => {
-            setSelectedItem(item)}
-            }>
-                {item}
-            </div>)}
+            {props.boards.map((board, i) => {return (
+
+            <div className={board === selectedItem ? 'board-selected-item' : 'board-item'} onClick={() => {setSelectedItem(board)}}>
+                {board[i].boardName}
+            </div>)})}
+
         </div> : null}
     </div>
 }
