@@ -1,12 +1,12 @@
-import CreateAssignmentComponent from "../Components/CreateAssignmentComponent";
-import BoardComponent from "../Components/BoardComponent";
+import CreateAssignmentComponent from "../components/CreateAssignmentComponent";
+import BoardComponent from "../components/BoardComponent";
 import { Tab, Popover } from '@headlessui/react';
 import {TbLayoutList, TbLayoutColumns} from "react-icons/tb";
 import {AiOutlineSearch, AiOutlineBell} from "react-icons/ai";
 import {TfiAgenda} from "react-icons/tfi";
 import {useState, useEffect} from "react";
-import NavbarComponent from "../Components/NavbarComponent";
-import ListComponent from "../Components/ListComponent";
+import NavbarComponent from "../components/NavbarComponent";
+import ListComponent from "../components/ListComponent";
 
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -21,7 +21,7 @@ function StartScreen() {
     const date = new Date();
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
-    useEffect(() => {
+    /*useEffect(() => {
         fetch("http://localhost:3000/board/1/1")
             .then(res => res.json())
             .then(
@@ -34,13 +34,13 @@ function StartScreen() {
                     setError(error);
                 }
             )
-    }, [])
+    }, [])*/
 
-    if (error) {
+    /*if (error) {
         return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
         return <div>Loading...</div>;
-    } else {
+    } else */{
 
         return (
             <div className={"flex"}>
