@@ -1,12 +1,12 @@
-import CreateAssignmentComponent from "../components/CreateAssignmentComponent";
-import BoardComponent from "../components/BoardComponent";
+import CreateAssignmentComponent from "../Components/CreateAssignmentComponent";
+import BoardComponent from "../Components/BoardComponent";
 import { Tab, Popover } from '@headlessui/react';
 import {TbLayoutList, TbLayoutColumns} from "react-icons/tb";
 import {AiOutlineSearch, AiOutlineBell} from "react-icons/ai";
 import {TfiAgenda} from "react-icons/tfi";
 import {useState, useEffect} from "react";
-import NavbarComponent from "../components/NavbarComponent";
-import ListComponent from "../components/ListComponent";
+import NavbarComponent from "../Components/NavbarComponent";
+import ListComponent from "../Components/ListComponent";
 
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -17,31 +17,33 @@ function StartScreen() {
     const [error, setError] = useState(null);
     const [isLoaded, setIsLoaded] = useState(false);
     const [board, setBoard] = useState(null);
+    const [boards, setBoards] = useState(null);
     const [boardState, setBoardState] = useState("board");
     const date = new Date();
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
-    /*useEffect(() => {
-        fetch("http://localhost:3000/board/1/1")
+    useEffect(() => {
+        fetch("http://localhost:3000/Board/All")
             .then(res => res.json())
             .then(
                 (result) => {
+                    console.log(result);
                     setIsLoaded(true);
-                    setBoard(result);
+                    setBoard(result[10]);
+                    setBoards(result);
                 },
                 (error) => {
                     setIsLoaded(true);
                     setError(error);
                 }
             )
-    }, [])*/
+    }, [])
 
-    /*if (error) {
+    if (error) {
         return <div>Error: {error.message}</div>;
     } else if (!isLoaded) {
         return <div>Loading...</div>;
-    } else */{
-
+    } else {
         return (
             <div className={"flex"}>
                 <div>
@@ -49,7 +51,7 @@ function StartScreen() {
                 </div>
                 <div className="px-2 m-0 Board-view-spacing">
                     <div className="flex App-header-spacing">
-                        <h2 className="w-3/4 Board-text mb-4"> {capitalizeFirstLetter(board.boardname)} | {capitalizeFirstLetter(boardState)}</h2>
+                        <h2 className="w-3/4 Board-text mb-4"> {capitalizeFirstLetter(board.name)} | {capitalizeFirstLetter(boardState)}</h2>
                         <div className="flex Tab-box-right">
                             <AiOutlineSearch className="Search-icon m-1" size={25}/>
                             <AiOutlineBell className="Bell-icon m-1" size={25}/>
@@ -111,7 +113,7 @@ function StartScreen() {
                             </Tab.List>
                             <Tab.Panels>
                                 <Tab.Panel className="p-4">
-                                    <BoardComponent />
+                                    <BoardComponent board={board} />
                                 </Tab.Panel>
                                 <Tab.Panel className="p-4">
                                     <ListComponent />
