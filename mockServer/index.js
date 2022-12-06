@@ -11,6 +11,19 @@ const assignment_1 = __importDefault(require("./models/assignment"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3000;
+const boards = [
+    new board_1.default(1, 'Board 1'),
+    new board_1.default(2, 'Board 2'),
+    new board_1.default(3, 'Board 3')
+];
+const assignments = [
+    new assignment_1.default(1, 'Assignment 1', "TODO", 1, 'Description 1', new Date(), new Date(), new Date(), 1),
+    new assignment_1.default(2, 'Assignment 2', "TODO", 1, 'Description 2', new Date(), new Date(), new Date(), 1),
+    new assignment_1.default(3, 'Assignment 3', "In progress", 1, 'Description 3', new Date(), new Date(), new Date(), 1),
+    new assignment_1.default(4, 'Assignment 4', "In progress", 1, 'Description 4', new Date(), new Date(), new Date(), 1),
+    new assignment_1.default(5, 'Assignment 5', "Done", 1, 'Description 5', new Date(), new Date(), new Date(), 1),
+    new assignment_1.default(6, 'Assignment 6', "Done", 1, 'Description 6', new Date(), new Date(), new Date(), 1)
+];
 const allowedList = ['http://localhost:3001'];
 app.use((0, cors_1.default)({
     origin: (origin, callback) => {
@@ -25,24 +38,17 @@ app.use((0, cors_1.default)({
     }
 }));
 app.get('/Board/All', (req, res) => {
-    const boards = [
-        new board_1.default(1, 'Board 1'),
-        new board_1.default(2, 'Board 2'),
-        new board_1.default(3, 'Board 3')
-    ];
     res.send(boards);
 });
 app.get('/assignment/:boardId', (req, res) => {
     const boardId = req.params.boardId;
-    const assignments = [
-        new assignment_1.default(1, 'Assignment 1', "TODO", 1, 'Description 1', new Date(), new Date(), new Date(), 1),
-        new assignment_1.default(2, 'Assignment 2', "TODO", 1, 'Description 2', new Date(), new Date(), new Date(), 1),
-        new assignment_1.default(3, 'Assignment 3', "In progress", 1, 'Description 3', new Date(), new Date(), new Date(), 1),
-        new assignment_1.default(4, 'Assignment 4', "In progress", 1, 'Description 4', new Date(), new Date(), new Date(), 1),
-        new assignment_1.default(5, 'Assignment 5', "Done", 1, 'Description 5', new Date(), new Date(), new Date(), 1),
-        new assignment_1.default(6, 'Assignment 6', "Done", 1, 'Description 6', new Date(), new Date(), new Date(), 1)
-    ];
     res.send(assignments);
+});
+app.post('/assignments/:courseId', (req, res) => {
+    const courseId = req.params.courseId;
+    const assignment = new assignment_1.default(0, req.body.name, req.body.status, req.body.courseId, req.body.description, req.body.dueDate, req.body.createdAt, req.body.updatedAt, req.body.submission);
+    assignments.push(assignment);
+    res.send(assignment);
 });
 app.listen(port, () => {
     console.log(`Mock server listening at http://localhost:${port}`);
