@@ -1,18 +1,21 @@
 import React from 'react';
+import './css/NavbarComponent.css'
 
 export default function NavbarComponent(props) {
     return (
-        <div>
-            <h1>Navbar</h1>
-            <ul>
-                {props.boards.map(board => {
+        <div className={'list-container'}>
+            <div className={'title'}>
+
+            </div>
+            <div className={'boards'}>
+                {props.boards.map((board) => {
                     return (
-                        <li key={board.id}>
-                            <button style={{ background: props.selectedBoard == board ? 'red' : 'blue'}} onClick={() => props.setSelectedBoard(board)}>{board.name}</button>
-                        </li>
+                        <div className={board === props.selectedBoard ? 'board-selected-item' : 'board-item'} onClick={() => props.setSelectedBoard(board)}>
+                            {board.name}
+                        </div>
                     )
                 })}
-            </ul>
+            </div>
         </div>
     );
 }

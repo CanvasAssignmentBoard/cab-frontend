@@ -31,6 +31,9 @@ export default function BoardComponent(props) {
 
     return (
         <>
+        <div className={"grid grid-cols-2 gap-4"}>
+
+        </div>
             <HeaderComponent />
             <NavbarComponent boards={boards} selectedBoard={selectedBoard} setSelectedBoard={setSelectedBoard}/>
             <AssignmentProvider board={selectedBoard}>
