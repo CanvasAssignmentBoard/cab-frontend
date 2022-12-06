@@ -1,24 +1,16 @@
 import React from 'react';
 import "./css/ColumnComponent.css";
-import ColumnHeaderComponent from "./ColumnHeaderComponent";
-import TaskComponent from "./TaskComponent";
 
-export default function ColumnComponent(columnInfo) {
+export default function ColumnComponent(props) {
 
     return(
         <div className={"column-div"}>
-            <ColumnHeaderComponent
-                columnInfo={columnInfo.columnName}
-                taskCount={columnInfo.taskCount}
-            />
-            {
-                columnInfo.tasks.map(task => {
-                    return (
-                        <TaskComponent task={task}/>
-                            )
-                    }
-                )
-            }
+            <div className={"column-header-div"}>
+                <p className={"column-header-text"}>
+                    {props.columnName}
+                </p>
+            </div>
+            {props.children}
         </div>
     )
 }

@@ -1,37 +1,42 @@
-import React from 'react';
-import "./css/BoardComponent.css";
-import ColumnComponent from "./ColumnComponent";
+import React, {useEffect, useState, useContext} from 'react';
+import AssignmentProvider from '../Providers/AssignmentProvider';
+import {BoardContext} from "../Providers/BoardProvider";
+import {AssignmentContext} from "../Providers/AssignmentProvider";
+import NavbarComponent from './NavbarComponent';
+import HeaderComponent from './HeaderComponent';
+import ColumnComponent from './ColumnComponent';
+import ColumnHeaderComponent from './ColumnHeaderComponent';
 
-export default function BoardComponent() {
+function LoadAssignmentBoard() {
+    const assignments = useContext(AssignmentContext);
 
-    const taskArrayA = [{name: "Create Figma Prototype", parent: "UI/UX Prototype", description: "Test description", progress: 0, deadlineDate: "24 Dec 2022", comments: 0, uploads: 0}
-        , {name: "d", description: "Test description"}];
-    const taskArrayB = [{name: "b", description: "Test description"}];
-    const taskArrayC = [{name: "c", description: "Test description"}];
-
-    const getTaskCount = (taskArray) => {
-        return(
-            taskArray.length
-        )
-    };
-
-    return(
+    return (
         <div data-testid="required-column-list" className={"board-div grid grid-cols-3 gap-4"}>
-            <ColumnComponent
-                columnName={"🔵 To Do"}
-                taskCount={getTaskCount(taskArrayA)}
-                tasks={taskArrayA}
-            />
-            <ColumnComponent
-                columnName={"🔴 In Progress"}
-                taskCount={getTaskCount(taskArrayB)}
-                tasks={taskArrayB}
-            />
-            <ColumnComponent
-                columnName={"⚪ Done"}
-                taskCount={getTaskCount(taskArrayC)}
-                tasks={taskArrayC}
-            />
+            <ColumnComponent columnName={"🔵 To Do"}>
+                {assignments.filter(assignment => assignment.status === "TODO").map(assignment => <p>{assignment.name}</p>)}
+            </ColumnComponent>
+            <ColumnComponent columnName={"🔴 In Progress"}>
+                {assignments.filter(assignment => assignment.status === "In progress").map(assignment => <p>{assignment.name}</p>)}
+            </ColumnComponent>
+            <ColumnComponent columnName={"⚪ Done"}>
+                {assignments.filter(assignment => assignment.status === "Done").map(assignment => <p>{assignment.name}</p>)}
+            </ColumnComponent>
         </div>
+    );
+}
+export default function BoardComponent(props) {
+
+    const [selectedBoard, setSelectedBoard] = useState(null);
+    const boards = useContext(BoardContext);
+
+    return (
+        <>
+            <HeaderComponent />
+            <NavbarComponent boards={boards} selectedBoard={selectedBoard} setSelectedBoard={setSelectedBoard}/>
+            <AssignmentProvider board={selectedBoard}>
+                <LoadAssignmentBoard />
+            </AssignmentProvider>        
+        </>
+
     )
 }
