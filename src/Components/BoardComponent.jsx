@@ -2,10 +2,11 @@ import React, {useEffect, useState, useContext} from 'react';
 import AssignmentProvider from '../Providers/AssignmentProvider';
 import {BoardContext} from "../Providers/BoardProvider";
 import {AssignmentContext} from "../Providers/AssignmentProvider";
-import NavbarComponent from './NavbarComponent';
+import NavbarListComponent from './NavbarListComponent';
 import HeaderComponent from './HeaderComponent';
 import ColumnComponent from './ColumnComponent';
 import ColumnHeaderComponent from './ColumnHeaderComponent';
+import NavbarComponent from "./NavbarComponent";
 
 function LoadAssignmentBoard() {
     const assignments = useContext(AssignmentContext);
@@ -26,20 +27,21 @@ function LoadAssignmentBoard() {
 }
 export default function BoardComponent(props) {
 
-    const [selectedBoard, setSelectedBoard] = useState(null);
     const boards = useContext(BoardContext);
+    const [selectedBoard, setSelectedBoard] = useState(null);
+    if (boards.length > 0 && selectedBoard == null)
+    {
+        setSelectedBoard(boards[0]);
+    }
 
     return (
-        <>
-        <div className={"grid grid-cols-2 gap-4"}>
-
-        </div>
-            <HeaderComponent />
+        <div style={{display: "flex", alignItems: "start"}}>
+            {/*<HeaderComponent />*/}
             <NavbarComponent boards={boards} selectedBoard={selectedBoard} setSelectedBoard={setSelectedBoard}/>
             <AssignmentProvider board={selectedBoard}>
                 <LoadAssignmentBoard />
-            </AssignmentProvider>        
-        </>
+            </AssignmentProvider>
+        </div>
 
     )
 }
