@@ -4,9 +4,20 @@
 
 .column-div{
     width: 25vw;
-    height: 80vh;
+    /* height: 80vh; */
     padding: 10px;
     background: #FFFFFF;
     border: 2px dashed rgba(28, 29, 34, 0.08);
     border-radius: 12px;
+}
+
+.assignment-holder {
+    scrollbar-width: none;
+    -ms-scrollbar-width: none;
+    overflow-y: scroll;
+    height: 80vh;
+}
+
+.assignment-holder::-webkit-scrollbar {
+    display: none;
 }

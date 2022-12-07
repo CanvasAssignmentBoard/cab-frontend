@@ -4,13 +4,9 @@ import {BoardContext} from "../Providers/BoardProvider";
 import {AssignmentContext} from "../Providers/AssignmentProvider";
 import TaskProvider, {TaskContext} from "../Providers/TaskProvider";
 import NavbarComponent from './NavbarComponent';
-import HeaderComponent from './HeaderComponent';
-import NavbarListComponent from './NavbarListComponent';
 //import HeaderComponent from './HeaderComponentOld';
 import ColumnComponent from './ColumnComponent';
-import ColumnHeaderComponent from './ColumnHeaderComponent';
 import AssignmentComponent from './AssignmentComponent';
-import CreateAssignmentComponent from "./CreateAssignmentComponent";
 import HeaderBoardComponent from "./HeaderBoardComponent";
 
 
