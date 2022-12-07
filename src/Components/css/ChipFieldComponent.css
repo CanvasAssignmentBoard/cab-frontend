@@ -1,0 +1,17 @@
+.chip-field {
+    width: fit-content;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 5rem;
+    background-color: #fff;
+    cursor: text;
+}
+
+.chip-field .chip {
+    margin: 0;
+    padding: 0;
+    font-size: 0.8rem;
+    font-weight: 400;
+}
