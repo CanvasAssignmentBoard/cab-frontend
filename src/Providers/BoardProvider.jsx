@@ -4,7 +4,7 @@ function GetBoards() {
     const [boards, setBoards] = useState([]);
     const host = process.env.REACT_APP_API_HOST
     useEffect(() => {
-        fetch(`${host}/Board/All`)
+        fetch(`${host}/board`)
             .then(response => response.json())
             .then(data => setBoards(data));
     }, []);

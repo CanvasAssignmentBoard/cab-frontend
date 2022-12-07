@@ -11,7 +11,9 @@ export default function ColumnComponent(props) {
                         {props.columnName}
                     </p>
                 </div>
-                {props.children}
+                <div className={"assignment-holder"}>
+                    {props.children}
+                </div>
             </div>
         </div>
 
