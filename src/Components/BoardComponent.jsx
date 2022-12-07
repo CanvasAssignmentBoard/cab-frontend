@@ -5,16 +5,22 @@ import {AssignmentContext} from "../Providers/AssignmentProvider";
 import TaskProvider, {TaskContext} from "../Providers/TaskProvider";
 import NavbarComponent from './NavbarComponent';
 import HeaderComponent from './HeaderComponent';
+import NavbarListComponent from './NavbarListComponent';
+//import HeaderComponent from './HeaderComponentOld';
 import ColumnComponent from './ColumnComponent';
 import ColumnHeaderComponent from './ColumnHeaderComponent';
 import AssignmentComponent from './AssignmentComponent';
+import CreateAssignmentComponent from "./CreateAssignmentComponent";
+import HeaderBoardComponent from "./HeaderBoardComponent";
+
 
 function LoadAssignmentBoard() {
     const assignments = useContext(AssignmentContext);
     console.log(assignments);
 
     return (
-        <div data-testid="required-column-list" className={"board-div grid grid-cols-3 gap-4"}>
+        <div style={{marginLeft: "2vw"}}>
+            <div data-testid="required-column-list" className={"board-div grid grid-cols-3 gap-12 items-stretch"}>
             <ColumnComponent columnName={'🔵 To Do (' + assignments.filter(assignment => assignment.status === "TODO").length + ')'}>
                 {assignments.filter(assignment => assignment.status === "TODO").map(assignment => (
                 <TaskProvider assignment={assignment}>
@@ -39,27 +45,32 @@ function LoadAssignmentBoard() {
                 )
             )}
             </ColumnComponent>
+            </div>
         </div>
     );
 }
+
 export default function BoardComponent(props) {
 
-    const [selectedBoard, setSelectedBoard] = useState(null);
     const boards = useContext(BoardContext);
+    const [selectedBoard, setSelectedBoard] = useState(null);
+    if (boards.length > 0 && selectedBoard == null) {
+        setSelectedBoard(boards[0]);
+    }
 
     console.log(props.boards);
 
     return (
-        <>
-        <div className={"grid grid-cols-2 gap-4"}>
-
-        </div>
-            <HeaderComponent />
+        <div style={{display: "flex"}}>
+            {/*<HeaderComponent />*/}
             <NavbarComponent boards={boards} selectedBoard={selectedBoard} setSelectedBoard={setSelectedBoard}/>
             <AssignmentProvider board={selectedBoard}>
-                <LoadAssignmentBoard />
-            </AssignmentProvider>        
-        </>
+                <LoadAssignmentBoard/>
+            </AssignmentProvider>
+            <HeaderBoardComponent/>
+
+
+        </div>
 
     )
 }

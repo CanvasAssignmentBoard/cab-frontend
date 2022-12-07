@@ -1,6 +1,7 @@
 .create-assignment-button{
     background: #1C1D22;
     width: 200px;
+    height: auto;
     padding: 0.25rem;
     color: white;
     border-radius: 19px;
