@@ -5,6 +5,7 @@ import ProgressBarComponent from './ProgressBarComponent';
 import ChipFieldComponent from './ChipFieldComponent.jsx';
 import { useContext } from 'react';
 import {CourseContext} from "../Providers/CourseProvider";
+import {TaskContext} from "../Providers/TaskProvider";
 import ModalComponent from './ModalComponent';
 
 function deadlineColor(date) {
@@ -26,22 +27,17 @@ export default function AssignmentComponent(props) {
 
     const [showModal, setShowModal] = useState(false);
     const courses = useContext(CourseContext);
+    const tasks = useContext(TaskContext);
 
-    const [selected, setSelected] = useState([0, 1, 2]);
-
-
-    const handleToggle = React.useCallback((i) => {
-        if(selected.includes(i)) {
-            setSelected(selected => selected.splice(i, 1));
-        } else {
-            let newSelection = [...selected.push(i)];
-            setSelected(newSelection);
-        }
-    }, [selected]);
+    if (courses === undefined || tasks === undefined) {
+        return <></>;
+    }
 
     const currentDate = new Date();
-    const deadlineDate = new Date(props.assignment.dueDate);
+    const deadlineDate = new Date(props.assignment.due_at);
 
+    console.log(props.assignment);
+    console.log(deadlineDate);
     return (
         <>
         <div className={"assignment-div"} onClick={() => setShowModal(true)}>
@@ -50,14 +46,16 @@ export default function AssignmentComponent(props) {
                     {props.assignment.name}
                 </p>
                 <p className={"assignment-header-subtext"}>
-                    {courses.find(course => course.id === props.assignment.courseId).name}
+                    {courses.find(course => course.id === props.assignment.course_id).name}
                 </p>
             </div>
             <div className={"assignment-body-div"}>
-                <ProgressBarComponent progress={Math.ceil((100 / props.assignment.tasks.length * props.assignment.tasks.filter(task => {
-                    return task.checked;
-                }).length))}/>
-                <ChipFieldComponent title={deadlineDate.toISOString().split(/[T ]/i, 1)[0]} color={deadlineColor(props.assignment.dueDate)}/>
+                {tasks.length > 0 ? 
+                    <ProgressBarComponent progress={Math.ceil((100 / tasks.length * tasks.filter(task => {
+                        return task.status === "checked";
+                    }).length))}/> 
+                : <></>}
+                { props.assignment.due_at != null ? <ChipFieldComponent title={deadlineDate.toISOString().split(/[T ]/i, 1)[0]} color={deadlineColor(props.assignment.dueDate)}/> : <></>}
             </div>
         </div>
         <ModalComponent modalHeader={props.assignment.name} showModal={showModal} setShowModal={setShowModal} onClose={() => setShowModal(false)}>

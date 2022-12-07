@@ -1,6 +1,6 @@
 .column-div{
     width: 30vw;
-    height: 90vh;
+    min-height: 90vh;
     margin: auto;
     padding: 10px;
     background: #FFFFFF;

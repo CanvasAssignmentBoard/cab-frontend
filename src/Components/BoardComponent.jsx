@@ -2,6 +2,7 @@ import React, {useEffect, useState, useContext} from 'react';
 import AssignmentProvider from '../Providers/AssignmentProvider';
 import {BoardContext} from "../Providers/BoardProvider";
 import {AssignmentContext} from "../Providers/AssignmentProvider";
+import TaskProvider, {TaskContext} from "../Providers/TaskProvider";
 import NavbarComponent from './NavbarComponent';
 import HeaderComponent from './HeaderComponent';
 import ColumnComponent from './ColumnComponent';
@@ -15,13 +16,28 @@ function LoadAssignmentBoard() {
     return (
         <div data-testid="required-column-list" className={"board-div grid grid-cols-3 gap-4"}>
             <ColumnComponent columnName={'🔵 To Do (' + assignments.filter(assignment => assignment.status === "TODO").length + ')'}>
-                {assignments.filter(assignment => assignment.status === "TODO").map(assignment => <AssignmentComponent assignment={assignment}/>)}
+                {assignments.filter(assignment => assignment.status === "TODO").map(assignment => (
+                <TaskProvider assignment={assignment}>
+                    <AssignmentComponent assignment={assignment}/>
+                </TaskProvider>
+                )
+            )}
             </ColumnComponent>
             <ColumnComponent columnName={'🔴 In Progress (' + assignments.filter(assignment => assignment.status === "In progress").length + ')'}>
-                {assignments.filter(assignment => assignment.status === "In progress").map(assignment => <AssignmentComponent assignment={assignment}/>)}
+                {assignments.filter(assignment => assignment.status === "In progress").map(assignment => (
+                <TaskProvider assignment={assignment}>
+                    <AssignmentComponent assignment={assignment}/>
+                </TaskProvider>
+                )
+            )}
             </ColumnComponent>
             <ColumnComponent columnName={'⚪ Done (' + assignments.filter(assignment => assignment.status === "Done").length + ')'}>
-                {assignments.filter(assignment => assignment.status === "Done").map(assignment => <AssignmentComponent assignment={assignment}/>)}
+                {assignments.filter(assignment => assignment.status === "Done").map(assignment => (
+                <TaskProvider assignment={assignment}>
+                    <AssignmentComponent assignment={assignment}/>
+                </TaskProvider>
+                )
+            )}
             </ColumnComponent>
         </div>
     );
