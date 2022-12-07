@@ -2,12 +2,20 @@ import React, {useEffect, useState, createContext} from 'react';
 
 function GetAssignments(boardId) {
     const [assignments, setAssignments] = useState([]);
+    
     const host = process.env.REACT_APP_API_HOST
     useEffect(() => {
-        fetch(`${host}/assignment/${boardId}`)
+        if (boardId === null || boardId === undefined) {
+            return;
+        }
+        fetch(`${host}/board/${boardId}`)
             .then(response => response.json())
-            .then(data => setAssignments(data));
+            .then(data => {
+                setAssignments(data.assignments);
+            });
     }, [boardId]);
+
+    console.log(assignments);
     return assignments;
 }
 

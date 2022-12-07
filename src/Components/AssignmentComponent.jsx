@@ -5,6 +5,7 @@ import ProgressBarComponent from './ProgressBarComponent';
 import ChipFieldComponent from './ChipFieldComponent.jsx';
 import { useContext } from 'react';
 import {CourseContext} from "../Providers/CourseProvider";
+import ModalComponent from './ModalComponent';
 
 function deadlineColor(date) {
     console.log(date);
@@ -20,8 +21,10 @@ function deadlineColor(date) {
         return "#bdbdbd";
     }
 }
+
 export default function AssignmentComponent(props) {
 
+    const [showModal, setShowModal] = useState(false);
     const courses = useContext(CourseContext);
 
     const [selected, setSelected] = useState([0, 1, 2]);
@@ -41,7 +44,7 @@ export default function AssignmentComponent(props) {
 
     return (
         <>
-        <div className={"assignment-div"}>
+        <div className={"assignment-div"} onClick={() => setShowModal(true)}>
             <div className={"assignment-header-div"}>
                 <p className={"assignment-header-text"}>
                     {props.assignment.name}
@@ -57,112 +60,18 @@ export default function AssignmentComponent(props) {
                 <ChipFieldComponent title={deadlineDate.toISOString().split(/[T ]/i, 1)[0]} color={deadlineColor(props.assignment.dueDate)}/>
             </div>
         </div>
+        <ModalComponent modalHeader={props.assignment.name} showModal={showModal} setShowModal={setShowModal} onClose={() => setShowModal(false)}>
+            <div style={{display: 'flex', flexDirection: 'column'}}>
+                <span className={"form-label"}>Description</span>
+                <p className={"assignment-description "}>
+                    {props.assignment.description}
+                </p>
+                <span className={"form-label"}>Course</span>
+                <span className={"form-label"}>Status</span>
+                <span className={"form-label"}>Submission type</span>
+            </div>
+        </ModalComponent>
         </>
     );
 }
 
-const dataStatus = [
-    {
-        id: 1,
-        name: "To do"
-    },
-    {
-        id: 2,
-        name: "In progress"
-    },
-    {
-        id: 3,
-        name: "Done"
-    }
-];
-
-const dataAssignment = [
-    {
-        id: 1,
-        name: "Create Figma Prototype",
-        parent: "OL-N22-CMK",
-        category: "UI/UX Prototype",
-        status: "To do",
-        description: "Test description",
-        tasks: [
-            {
-                id: 1,
-                name: "Create basic layout",
-                description: "Test description",
-                checked: false,
-            },
-            {
-                id: 1,
-                name: "Create basic layout",
-                description: "Test description",
-                checked: false,
-            },
-        ],
-        deadlineDate: "18 Nov 2022",
-        comments: 0,
-        uploads: 0
-    },
-    {
-        id: 2,
-        name : "Subquestion 3 - How is the current software designed?",
-        parent: "INTERSHIP-COURSE",
-        category: "Research Document",
-        status: "To do", 
-        description: "Test description",
-        tasks: [
-            {
-                id: 1,
-                name: "Create basic layout",
-                description: "Test description",
-                checked: false,
-            },
-        ],
-        deadlineDate: "24 Dec 2022",
-        comments: 0,
-        uploads: 0
-    },
-    {
-        id: 3,
-        name : "b",
-        parent: "INTERSHIP-COURSE",
-        category: "",
-        status: "In progress",
-        description: "Test description",
-        tasks: [
-            {
-                id: 1,
-                name: "Create basic layout",
-                description: "Test description",
-                checked: false,
-            },
-            {
-                id: 2,
-                name: "Create basic layout",
-                description: "Test description",
-                checked: true,
-            },
-        ],
-        deadlineDate: "24 Dec 2022",
-        comments: 0,
-        uploads: 0
-    },
-    {
-        id: 4,
-        name : "c",
-        category: "",
-        parent: "INTERSHIP-COURSE",
-        status: "Done",
-        description: "Test description",
-        tasks: [
-            {
-                id: 1,
-                name: "Create basic layout",
-                description: "Test description",
-                checked: true,
-            },
-        ],
-        deadlineDate: "14 Nov 2022",
-        comments: 0,
-        uploads: 0
-    }
-];

@@ -10,6 +10,7 @@ import AssignmentComponent from './AssignmentComponent';
 
 function LoadAssignmentBoard() {
     const assignments = useContext(AssignmentContext);
+    console.log(assignments);
 
     return (
         <div data-testid="required-column-list" className={"board-div grid grid-cols-3 gap-4"}>
@@ -29,6 +30,8 @@ export default function BoardComponent(props) {
 
     const [selectedBoard, setSelectedBoard] = useState(null);
     const boards = useContext(BoardContext);
+
+    console.log(props.boards);
 
     return (
         <>

@@ -40,3 +40,9 @@
     border: 1px dashed #e6e6e6;
     border-radius: 0.5rem;
 }
+
+.assignment-description {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #999999;
+}
