@@ -7,7 +7,7 @@ function GetAssignments(boardId) {
         fetch(`${host}/assignment/${boardId}`)
             .then(response => response.json())
             .then(data => setAssignments(data));
-    }, []);
+    }, [boardId]);
     return assignments;
 }
 
@@ -18,8 +18,8 @@ export default function AssignmentProvider(props) {
     if (props.board == null) {
         return <></>;
     }
-    
-    const assignments = GetAssignments();
+
+    const assignments = GetAssignments(props.board.id);
     return (
         <AssignmentContext.Provider value={assignments}>
             {props.children}

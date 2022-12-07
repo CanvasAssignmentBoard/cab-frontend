@@ -1,0 +1,13 @@
+.progress-bar-percentage {
+    color: #000;
+    font-weight: 800;
+}
+
+.progress-bar-text {
+    display: flex;
+    align-items: center;
+}
+
+.progress-bar-text svg {
+    margin-right: 0.2rem;
+}

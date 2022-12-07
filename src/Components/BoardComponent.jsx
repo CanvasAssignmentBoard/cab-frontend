@@ -6,20 +6,21 @@ import NavbarComponent from './NavbarComponent';
 import HeaderComponent from './HeaderComponent';
 import ColumnComponent from './ColumnComponent';
 import ColumnHeaderComponent from './ColumnHeaderComponent';
+import AssignmentComponent from './AssignmentComponent';
 
 function LoadAssignmentBoard() {
     const assignments = useContext(AssignmentContext);
 
     return (
         <div data-testid="required-column-list" className={"board-div grid grid-cols-3 gap-4"}>
-            <ColumnComponent columnName={"🔵 To Do"}>
-                {assignments.filter(assignment => assignment.status === "TODO").map(assignment => <p>{assignment.name}</p>)}
+            <ColumnComponent columnName={'🔵 To Do (' + assignments.filter(assignment => assignment.status === "TODO").length + ')'}>
+                {assignments.filter(assignment => assignment.status === "TODO").map(assignment => <AssignmentComponent assignment={assignment}/>)}
             </ColumnComponent>
-            <ColumnComponent columnName={"🔴 In Progress"}>
-                {assignments.filter(assignment => assignment.status === "In progress").map(assignment => <p>{assignment.name}</p>)}
+            <ColumnComponent columnName={'🔴 In Progress (' + assignments.filter(assignment => assignment.status === "In progress").length + ')'}>
+                {assignments.filter(assignment => assignment.status === "In progress").map(assignment => <AssignmentComponent assignment={assignment}/>)}
             </ColumnComponent>
-            <ColumnComponent columnName={"⚪ Done"}>
-                {assignments.filter(assignment => assignment.status === "Done").map(assignment => <p>{assignment.name}</p>)}
+            <ColumnComponent columnName={'⚪ Done (' + assignments.filter(assignment => assignment.status === "Done").length + ')'}>
+                {assignments.filter(assignment => assignment.status === "Done").map(assignment => <AssignmentComponent assignment={assignment}/>)}
             </ColumnComponent>
         </div>
     );
