@@ -1,8 +1,10 @@
+.all-columns {
+    margin-top: 10vh;
+}
+
 .column-div{
     width: 25vw;
-    height: 90vh;
-    margin-left: 2vw;
-    margin-right: 2vw;
+    height: 80vh;
     padding: 10px;
     background: #FFFFFF;
     border: 2px dashed rgba(28, 29, 34, 0.08);

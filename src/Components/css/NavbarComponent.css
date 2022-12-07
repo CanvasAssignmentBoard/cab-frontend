@@ -1,6 +1,13 @@
+.boards-title {
+    font-size: 40px;
+    font-weight: bold;
+    display: inline;
+    margin-left: 13px;
+}
+
 .navbar-container {
     display: flex;
-    width: 318px;
+    width: 15vw;
     height: 100vh;
 
     background: #FFFFFF;
