@@ -17,9 +17,13 @@ function hexToRgb(hex) {
 export default function ChipFieldComponent(props) {
     console.log(props);
     const rgb = hexToRgb(props.color);
+    const style = {
+        backgroundColor: `rgb(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.2)`,
+        ...props.style
+    }
     return(
         
-        <div className={"chip-field"} style={{backgroundColor: `rgb(${rgb.r}, ${rgb.g}, ${rgb.b}, 0.2)`}}>
+        <div className={"chip-field"} style={style}>
             <div className={"chip"} style={{color: props.color}}>
                 {props.title}
             </div>
