@@ -32,7 +32,7 @@ export default function AssignmentComponent(props) {
     const [showModal, setShowModal] = useState(false);
     const courses = useContext(CourseContext);
     const tasks = useContext(TaskContext);
-    const host = process.env.REACT_APP_API_HOST;
+    
     let [isOpen, setIsOpen] = useState(false)
 
     if (courses === undefined || tasks === undefined) {
@@ -50,8 +50,6 @@ export default function AssignmentComponent(props) {
     const currentDate = new Date();
     const deadlineDate = new Date(props.assignment.due_at);
 
-    console.log(props.assignment);
-    console.log(deadlineDate);
     return (
         <>
         <div className={"assignment-div"} onClick={() => setIsOpen(true)}>

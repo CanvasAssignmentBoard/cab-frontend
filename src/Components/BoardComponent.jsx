@@ -8,10 +8,11 @@ import NavbarComponent from './NavbarComponent';
 import ColumnComponent from './ColumnComponent';
 import AssignmentComponent from './AssignmentComponent';
 import HeaderBoardComponent from "./HeaderBoardComponent";
+import {FilterContext} from "../Providers/FilterProvider";
 
 
 function LoadAssignmentBoard() {
-    const assignments = useContext(AssignmentContext);
+    const assignments = useContext(AssignmentContext).assignments;
     console.log(assignments);
 
     return (
@@ -49,23 +50,22 @@ function LoadAssignmentBoard() {
 export default function BoardComponent(props) {
 
     const boards = useContext(BoardContext);
+    const filter = useContext(FilterContext);
+    console.log(filter);
     const [selectedBoard, setSelectedBoard] = useState(null);
     if (boards.length > 0 && selectedBoard == null) {
         setSelectedBoard(boards[0]);
     }
 
-    console.log(boards);
-
-    console.log(props.boards);
 
     return (
         <div style={{display: "flex"}}>
             {/*<HeaderComponent />*/}
-            <NavbarComponent boards={boards.boards} selectedBoard={selectedBoard} setSelectedBoard={setSelectedBoard}/>
-            <AssignmentProvider board={selectedBoard}>
+            {/* <NavbarComponent boards={boards.boards} selectedBoard={boards.selectedBoard} setSelectedBoard={boards.setSelectedBoard}/> */}
+            <AssignmentProvider board={boards.selectedBoard} filter={filter.filter}>
                 <LoadAssignmentBoard/>
             </AssignmentProvider>
-            <HeaderBoardComponent/>
+            {/* <HeaderBoardComponent/> */}
 
 
         </div>
