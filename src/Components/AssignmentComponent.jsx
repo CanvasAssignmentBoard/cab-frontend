@@ -32,6 +32,7 @@ export default function AssignmentComponent(props) {
     const [showModal, setShowModal] = useState(false);
     const courses = useContext(CourseContext);
     const tasks = useContext(TaskContext);
+    const host = process.env.REACT_APP_API_HOST;
     let [isOpen, setIsOpen] = useState(false)
 
     if (courses === undefined || tasks === undefined) {

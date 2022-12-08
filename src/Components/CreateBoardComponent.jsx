@@ -1,23 +1,82 @@
-import React from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {AiFillPlusCircle, AiOutlineClose} from "react-icons/ai";
 import "./css/CreateBoardComponent.css";
+import {CourseContext} from "../Providers/CourseProvider";
+import {BoardContext} from "../Providers/BoardProvider";
 
+function CoursePill(props) {
+    const course = props.course;
+    const selectedCards = props.selectedCards;
+    const setSelectedCards = props.setSelectedCards;
+    const handleRemoveItem = props.handleRemoveItem;
+
+    return (
+        <div
+            style={{marginLeft: '2rem !important', marginTop: '2rem !important'}}
+            className={selectedCards.indexOf(course.name) > -1 ?  "course-card-selected bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
+                : "course-card bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"}
+            onClick={() => {
+                selectedCards.indexOf(course) > -1 ?
+                    handleRemoveItem(course) :
+                    setSelectedCards([...selectedCards, course]);
+            }}
+        >
+            <div>
+                <img style={{width: '100%'}} className="course-card-img rounded-t-lg"
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlazg9JzvKxwwVUmzc2IQKqGYVJhXZM0-tWW_tzZc&s" alt=""/>
+            </div>
+            <div className="p-2 max-w-10">
+                <h5 className="mb-2 text-sm font-bold tracking-tight text-gray-900 selected:border-blue-900">{course.name}</h5>
+            </div>
+        </div>
+    );
+}
 export default function CreateBoardComponent() {
     const [showModal, setShowModal] = React.useState(false);
     const [selectedCards, setSelectedCards] = React.useState([]);
+    const [board, setBoard] = useState({name: '', description: '', courses: []})
+    const [submit, setSubmit] = useState(false);
+    const boardProvider = useContext(BoardContext);
+    const host = process.env.REACT_APP_API_HOST;
 
-    const arr = [
-        {name: "OL-Servi-Huijbregts-I346215", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlazg9JzvKxwwVUmzc2IQKqGYVJhXZM0-tWW_tzZc&s"},
-        {name: "GRAD-8-CMK-T", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlazg9JzvKxwwVUmzc2IQKqGYVJhXZM0-tWW_tzZc&s"},
-        {name: "ICT-OL-CMK-N22", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlazg9JzvKxwwVUmzc2IQKqGYVJhXZM0-tWW_tzZc&s"},
-        {name: "ICT-SD-N23", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlazg9JzvKxwwVUmzc2IQKqGYVJhXZM0-tWW_tzZc&s"},
+    useEffect(() => {
+        if (submit) {
+            fetch(`${host}/board/create`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(board)
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                boardProvider.updateBoards();
+            })
+            setShowModal(false);
+            setSubmit(false);
+        }
+    }, [submit])
 
-    ];
+    const courses = useContext(CourseContext);
 
 
     const handleRemoveItem = React.useCallback((name) => {
         setSelectedCards(selectedCards => selectedCards.filter((item, i) => item !== name))
     }, [selectedCards]);
+
+    function onSubmit(e) {
+        e.preventDefault();
+        e.stopPropagation();
+
+        let name = e.target[0].value;
+        let description = e.target[1].value;
+        let courses = selectedCards.map((course) => course.id);
+
+        setBoard({name, description, courses});
+        setSubmit(true);
+    }
+
 
     return (
         <>
@@ -51,7 +110,7 @@ export default function CreateBoardComponent() {
                                 </div>
                                 {/*body*/}
                                 <div className="py-6 px-6 lg:px-8">
-                                    <form className="space-y-6">
+                                    <form className="space-y-6" onSubmit={(event) => onSubmit(event)}>
                                         <div>
                                             <label htmlFor="boardName"
                                                    className="block mb-2 text-sm font-medium text-black-900 dark:text-gray-300">Board
@@ -68,34 +127,12 @@ export default function CreateBoardComponent() {
                                                       placeholder="Type your board description here"/>
                                         </div>
                                         <div>
-                                            <div className="bg-gray-50 flex border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                                {selectedCards.map((course) => {
-                                                    return (<p className={"selected-course-pill"}>{course}</p>)
-                                                })}
+                                            <div style={{display: 'grid', gridTemplateColumns: '165px 165px 165px 165px', height: '300px', overflowY: 'scroll'}} className="bg-gray-50 flex border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                                {selectedCards.map((course) => <CoursePill course={course} selectedCards={selectedCards} setSelectedCards={setSelectedCards} handleRemoveItem={handleRemoveItem} />)}
                                             </div>
                                         </div>
-                                        <div className={"course-card-div flex space-x-5 "}>
-                                            {arr.map((course) => {
-                                                    return(
-                                                        <div
-                                                            className={selectedCards.indexOf(course.name) > -1 ?  "course-card-selected bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"
-                                                                : "course-card bg-white rounded-lg border border-gray-200 shadow-md dark:bg-gray-800 dark:border-gray-700"}
-                                                            onClick={() => {
-                                                                selectedCards.indexOf(course.name) > -1 ?
-                                                                    handleRemoveItem(course.name) :
-                                                                    setSelectedCards([...selectedCards, course.name]);
-                                                            }}
-                                                        >
-                                                            <div>
-                                                                <img className="course-card-img rounded-t-lg"
-                                                                     src={course.image} alt=""/>
-                                                            </div>
-                                                            <div className="p-2 max-w-10">
-                                                                <h5 className="mb-2 text-sm font-bold tracking-tight text-gray-900 selected:border-blue-900">{course.name}</h5>
-                                                            </div>
-                                                        </div>
-                                                    )
-                                                }
+                                        <div className={"course-card-div flex space-x-5"} style={{display: 'grid', gridTemplateColumns: '220px 220px 220px', height: '300px', overflowY: 'scroll'}}>
+                                            {courses.map((course) => <CoursePill course={course} selectedCards={selectedCards} setSelectedCards={setSelectedCards} handleRemoveItem={handleRemoveItem} />
                                             )}
                                         </div>
                                         <div
@@ -109,7 +146,7 @@ export default function CreateBoardComponent() {
                                             </button>
                                             <button
                                                 className="bg-blue-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
-                                                type="button"
+                                                type="submit"
                                                 onClick={() =>{
                                                     console.log(
                                                         "API Call: " +

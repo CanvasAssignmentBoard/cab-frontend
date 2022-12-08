@@ -54,12 +54,14 @@ export default function BoardComponent(props) {
         setSelectedBoard(boards[0]);
     }
 
+    console.log(boards);
+
     console.log(props.boards);
 
     return (
         <div style={{display: "flex"}}>
             {/*<HeaderComponent />*/}
-            <NavbarComponent boards={boards} selectedBoard={selectedBoard} setSelectedBoard={setSelectedBoard}/>
+            <NavbarComponent boards={boards.boards} selectedBoard={selectedBoard} setSelectedBoard={setSelectedBoard}/>
             <AssignmentProvider board={selectedBoard}>
                 <LoadAssignmentBoard/>
             </AssignmentProvider>

@@ -8,3 +8,9 @@
 .create-board-button:hover{
     opacity: 1;
 }
+
+.course-card {
+    margin-left: 2rem !important;
+    margin-top: 2rem !important;
+    height: fit-content;
+}
