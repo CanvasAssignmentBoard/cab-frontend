@@ -10,7 +10,7 @@ import FilterProvider from './Providers/FilterProvider';
 
 function App() {
   return (
-    <>
+    <div data-testid="app-loaded">
         <BoardProvider>
           <CourseProvider>
             <FilterProvider>
@@ -19,7 +19,7 @@ function App() {
             {/* <BoardComponent/> */}
           </CourseProvider>
         </BoardProvider>
-    </>
+    </div>
   );
 }
 
