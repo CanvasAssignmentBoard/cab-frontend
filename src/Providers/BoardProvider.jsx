@@ -15,7 +15,7 @@ function GetBoards(reloadBoards, setReloadBoards, selectedBoard, setSelectedBoar
                 });
             setReloadBoards(false);
         }
-    }, [reloadBoards]);
+    }, [boards.length, host, reloadBoards, selectedBoard, setReloadBoards, setSelectedBoard]);
     return boards;
 }
 

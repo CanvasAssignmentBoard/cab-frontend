@@ -16,7 +16,7 @@ function GetAssignments(boardId, filter) {
             .then(data => {
                 setAssignments(data.assignments.filter(assignment => { return Date.parse(assignment.due_at) <= Date.parse(filter.deadline) || filter.deadline == null; }));
             });
-    }, [boardId, filter]);
+    }, [boardId, filter, host]);
 
     console.log(assignments);
     return assignments;

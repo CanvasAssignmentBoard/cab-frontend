@@ -7,7 +7,7 @@ function GetCourses() {
         fetch(`${host}/course`)
             .then(response => response.json())
             .then(data => setCourses(data));
-    }, []);
+    }, [host]);
     return courses;
 }
 

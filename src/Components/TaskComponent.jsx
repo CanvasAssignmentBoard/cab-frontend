@@ -38,7 +38,7 @@ function Task(props) {
                 }
             );
         }
-    }, [submit]);
+    }, [host, props, submit, task.id, task.name, task.status]);
 
     function submitTask(e) {
         console.log(e);
@@ -124,7 +124,7 @@ function TaskInput(props) {
 
             setSubmit(false);
         }   
-    }, [submit])
+    }, [host, props, submit])
 
     function updateTask(e) {
         props.task.name = e.nativeEvent.data;

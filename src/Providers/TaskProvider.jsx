@@ -13,7 +13,7 @@ function GetTasks(assignmentId) {
             .then(data => {
                 setTasks(data);
             });
-    }, [assignmentId]);
+    }, [assignmentId, host]);
 
     console.log(tasks);
     return tasks;

@@ -56,14 +56,14 @@ export default function CreateBoardComponent() {
             setShowModal(false);
             setSubmit(false);
         }
-    }, [submit])
+    }, [board, boardProvider, host, submit])
 
     const courses = useContext(CourseContext);
 
 
     const handleRemoveItem = React.useCallback((name) => {
         setSelectedCards(selectedCards => selectedCards.filter((item, i) => item !== name))
-    }, [selectedCards]);
+    }, []);
 
     function onSubmit(e) {
         e.preventDefault();
