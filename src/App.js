@@ -14,7 +14,7 @@ function App() {
         <BoardProvider>
           <CourseProvider>
             <FilterProvider>
-              <TabbedNavigationComponent navItems={[{name: "Board", component: <BoardComponent />}]}/>
+              <TabbedNavigationComponent navItems={[{name: "0", component: <BoardComponent />}]} className={""}/>
             </FilterProvider>
             {/* <BoardComponent/> */}
           </CourseProvider>

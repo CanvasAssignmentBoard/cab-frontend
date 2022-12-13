@@ -1,0 +1,31 @@
+.column-container-list {
+    width: 80vw;
+    min-height: auto;
+    padding: 0.5vw;
+    background: #FFFFFF;
+    border: 2px dashed rgba(28, 29, 34, 0.88);
+    border-radius: 12px;
+    margin-bottom: 1vh;
+    margin-top: 1vh;
+}
+
+.column-div-list{
+    width: 78.5vw;
+    height: auto;
+    min-height: 20vh;
+    padding: 0.5vw;
+    background: #ffffff;
+    border: 2px  rgba(28, 29, 34, 0.9);
+    border-radius: 12px;
+}
+
+/*.assignment-holder {
+    scrollbar-width: none;
+    -ms-scrollbar-width: none;
+    overflow-y: scroll;
+    height: 80vh;
+}*/
+
+.assignment-holder::-webkit-scrollbar {
+    display: none;
+}

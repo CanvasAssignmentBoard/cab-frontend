@@ -1,0 +1,52 @@
+
+.assignment-list-div {
+    padding: 1rem;
+    margin: 0.5rem;
+    border: 1px solid #e6e6e6;
+    border-radius: 0.5rem;
+    justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+}
+
+.assignment-header-list-text {
+    font-size: 0.9rem;
+    font-weight: 800;
+}
+
+.assignment-header-list-subtext {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #999999;
+}
+.assignment-body-list-div {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #999999;
+    width: auto;
+    min-width: 12vw;
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    gap: 1rem;
+}
+
+.tasklist-group-header-list-title {
+    color: #999999;
+}
+.tasklist-group-list-header {
+    padding: 0 0.5rem 0.5rem 0.5rem;
+    display: flex;
+}
+
+.list-tasklist {
+    padding: 0.5rem;
+    border: 1px dashed #e6e6e6;
+    border-radius: 0.5rem;
+}
+
+.assignment-list-description {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #999999;
+}

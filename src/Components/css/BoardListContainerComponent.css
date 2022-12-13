@@ -1,0 +1,7 @@
+.column-list-container {
+    display: flex;
+    flex-direction: column;
+    margin-left: 2vw;
+    height: 50vw;
+    overflow-y: scroll;
+}

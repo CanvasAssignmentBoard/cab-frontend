@@ -9,6 +9,7 @@ import NavbarComponent from "../Components/NavbarComponent";
 import {BoardContext} from "../Providers/BoardProvider";
 import { Fragment } from 'react'
 import {FilterContext} from "../Providers/FilterProvider";
+import BoardListComponent from "./BoardListComponent";
 
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -55,22 +56,30 @@ function TabbedNavigationComponent(props) {
                         <div className="App-calendar"><TfiAgenda className="Agenda-icon m-1" size={25}/></div>
                     </div>
                 </div>
-                <div className="">
+                {/*<div className="">
                     <Tab.Group onChange={(index) => {
                         if (index === 0) {
                             setSelectedItem(navItems[index]);
+                            console.log("index= 0???")
                         } else if (index === 1) {
                             setSelectedItem(navItems[index]);
+                            console.log("index= 1???")
                         }
                     }}>
                         <Tab.List className="flex p-1 space-x-1" style={{justifyContent: 'space-between'}}>
+                            the buttons
                             <div>
                                 {navItems.map((navItem) => (
                                     <Tab className={({ selected }) => `pl-2 pr-2 tab-text font-medium leading-5 text-center text-gray-500 pb-4 ${(selectedItem === navItem) ? 'border-b border-black' : 'text-gray-400 hover:text-gray-500 hover:bg-gray-100 border-b border-transparent'}`}><TbLayoutColumns className="inline"/>{navItem.name}</Tab>
                                 ))}
                             </div>
-                            {/* <Tab className={({ selected }) => `pl-2 pr-2 tab-text font-medium leading-5 text-center text-gray-500 pb-4 ${(boardState === "board") ? 'border-b border-black' : 'text-gray-400 hover:text-gray-500 hover:bg-gray-100 border-b border-transparent'}`}><TbLayoutColumns className="inline"/> Board View</Tab>
-                            <Tab className={({ selected }) => `pl-2 pr-2 tab-text font-medium leading-5 text-center text-gray-500 pb-4 ${(boardState === "list") ? 'border-b border-black' : 'text-gray-400 hover:text-gray-500 hover:bg-gray-100 border-b border-transparent'}`}><TbLayoutList className="inline"/> List View</Tab> */}
+                            <div>
+                                {navItems.map((navItem) => (
+                                    <Tab className={({ selected }) => `pl-2 pr-2 tab-text font-medium leading-5 text-center text-gray-500 pb-4 ${(selectedItem === navItem) ? 'border-b border-black' : 'text-gray-400 hover:text-gray-500 hover:bg-gray-100 border-b border-transparent'}`}><TbLayoutColumns className="inline"/>List</Tab>
+                                ))}
+                            </div>
+                             <Tab className={({ selected }) => `pl-2 pr-2 tab-text font-medium leading-5 text-center text-gray-500 pb-4 ${(boardState === "board") ? 'border-b border-black' : 'text-gray-400 hover:text-gray-500 hover:bg-gray-100 border-b border-transparent'}`}><TbLayoutColumns className="inline"/> Board View</Tab>
+                            <Tab className={({ selected }) => `pl-2 pr-2 tab-text font-medium leading-5 text-center text-gray-500 pb-4 ${(boardState === "list") ? 'border-b border-black' : 'text-gray-400 hover:text-gray-500 hover:bg-gray-100 border-b border-transparent'}`}><TbLayoutList className="inline"/> List View</Tab>
 
                             <div className="Tab-box-right flex">
                                 <Popover className="relative">
@@ -118,15 +127,56 @@ function TabbedNavigationComponent(props) {
                                     {navItem.component}
                                 </Tab.Panel>
                             ))}
-                            {/* <Tab.Panel className="p-4">
+                             <Tab.Panel className="p-4">
                                 <BoardComponent />
                             </Tab.Panel>
                             <Tab.Panel className="p-4">
                                 <ListComponent />
-                            </Tab.Panel> */}
+                            </Tab.Panel>
                         </Tab.Panels>
                     </Tab.Group>
+                </div>*/}
+                <div className="Tab-box-right flex">
+                    <Popover className="relative">
+                        {({ open }) => (
+                            <>
+                                <Popover.Button className="Tab-box-right-button pl-2 pr-2 tab-text font-medium leading-5 text-center text-gray-500 pb-4">
+                                    <div className="Tab-box-right-button-text">Filter</div>
+                                </Popover.Button>
+                                <Popover.Panel className="mt-min-2 absolute z-10 right-0 w-56 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                    <div className="py-1">
+                                        <Popover.Button className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900">
+                                            <span>Deadline</span>
+                                            <input type="date" defaultValue={filter.filter.deadline} className="ml-2" onClick={(event) => event.stopPropagation()} onChange={(event) => onDeadlineFilter(event)}/>
+                                        </Popover.Button>
+                                    </div>
+                                </Popover.Panel>
+                            </>
+                        )}
+                    </Popover>
+                    <Popover className="relative">
+                        {({ open }) => (
+                            <>
+                                <Popover.Button className="Tab-box-right-button pl-2 pr-2 tab-text font-medium leading-5 text-center text-gray-500 pb-4">
+                                    <div className="Tab-box-right-button-text">Sort</div>
+                                </Popover.Button>
+                                <Popover.Panel className="mt-min-2 absolute z-10 right-0 w-56 origin-top-right bg-white border border-gray-200 divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                    <div className="py-1">
+                                        <Popover.Button className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-gray-900">
+                                            <svg className="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                                                <path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 6a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm0 6a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd" />
+                                            </svg>
+                                            <span>Sort</span>
+                                        </Popover.Button>
+                                    </div>
+                                </Popover.Panel>
+                            </>
+                        )}
+                    </Popover>
+                    <CreateAssignmentComponent/>
                 </div>
+
+                <BoardListComponent />
             </div>
         </div>
     );
