@@ -43,7 +43,8 @@ function Task(props) {
     function submitTask(e) {
         console.log(e);
         task.status = (e.target.checked ? "checked" : "unchecked");
-        setTask(task);
+        const newTask = task;
+        setTask(newTask);
         setSubmit(true);
     }
 

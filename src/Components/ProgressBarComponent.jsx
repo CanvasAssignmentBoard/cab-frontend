@@ -11,7 +11,7 @@ export default function ProgressBarComponent(props) {
                 <p className={"progress-bar-percentage"}>{props.progress}%</p>
             </div>
             <div className={"progress-bar bg-[#F5F5F5]"} style={{width: width + "%", maxWidth: "100%"}}>
-                <div className={`h-1 rounded-full ${(width / 100 * props.progress) === 100 ? "bg-[#F5761A]" : "bg-[#F5761A]"}`} style={{width: (width / 100 * props.progress) + "%", maxWidth: "100%"}}></div>
+                <div className={`h-1 rounded-full ${(width / 100 * props.progress) === 100 ? "bg-[#F5761A]" : "bg-[#F5762A]"}`} style={{width: (width / 100 * props.progress) + "%", maxWidth: "100%"}}></div>
             </div>
         </div>
     )
