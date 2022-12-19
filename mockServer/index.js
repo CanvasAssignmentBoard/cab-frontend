@@ -90,7 +90,7 @@ app.get('/course/:courseId', (req, res) => {
 app.get('/course', (req, res) => {
     res.send(courses);
 });
-app.post('/assignments', (req, res) => {
+app.post('/assignments/:courseId', (req, res) => {
     try {
         console.log(req);
         if (!req.body) {
