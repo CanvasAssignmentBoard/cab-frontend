@@ -1,0 +1,48 @@
+
+.assignment-div {
+    padding: 1rem;
+    margin: 0.5rem;
+    border: 1px solid #e6e6e6;
+    border-radius: 0.5rem;
+    justify-content: space-between;
+}
+
+.assignment-header-text {
+    font-size: 0.9rem;
+    font-weight: 800;
+}
+
+.assignment-header-subtext {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #999999;
+}
+.assignment-body-div {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #999999;
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    gap: 1rem;
+}
+
+.tasklist-group-header-title {
+    color: #999999;
+}
+.tasklist-group-header {
+    padding: 0 0.5rem 0.5rem 0.5rem;
+    display: flex;
+}
+
+.tasklist {
+    padding: 0.5rem;
+    border: 1px dashed #e6e6e6;
+    border-radius: 0.5rem;
+}
+
+.assignment-description {
+    font-size: 0.8rem;
+    font-weight: 400;
+    color: #999999;
+}

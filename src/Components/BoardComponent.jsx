@@ -1,37 +1,74 @@
-import React from 'react';
-import "./css/BoardComponent.css";
-import ColumnComponent from "./ColumnComponent";
+import React, {useEffect, useState, useContext} from 'react';
+import AssignmentProvider from '../Providers/AssignmentProvider';
+import {BoardContext} from "../Providers/BoardProvider";
+import {AssignmentContext} from "../Providers/AssignmentProvider";
+import TaskProvider, {TaskContext} from "../Providers/TaskProvider";
+import NavbarComponent from './NavbarComponent';
+//import HeaderComponent from './HeaderComponentOld';
+import ColumnComponent from './ColumnComponent';
+import AssignmentComponent from './AssignmentComponent';
+import HeaderBoardComponent from "./HeaderBoardComponent";
+import {FilterContext} from "../Providers/FilterProvider";
 
-export default function BoardComponent() {
 
-    const taskArrayA = [{name: "Create Figma Prototype", parent: "UI/UX Prototype", description: "Test description", progress: 0, deadlineDate: "24 Dec 2022", comments: 0, uploads: 0}
-        , {name: "d", description: "Test description"}];
-    const taskArrayB = [{name: "b", description: "Test description"}];
-    const taskArrayC = [{name: "c", description: "Test description"}];
+function LoadAssignmentBoard() {
+    const assignments = useContext(AssignmentContext).assignments;
+    console.log(assignments);
 
-    const getTaskCount = (taskArray) => {
-        return(
-            taskArray.length
-        )
-    };
-
-    return(
-        <div data-testid="required-column-list" className={"board-div grid grid-cols-3 gap-4"}>
-            <ColumnComponent
-                columnName={"🔵 To Do"}
-                taskCount={getTaskCount(taskArrayA)}
-                tasks={taskArrayA}
-            />
-            <ColumnComponent
-                columnName={"🔴 In Progress"}
-                taskCount={getTaskCount(taskArrayB)}
-                tasks={taskArrayB}
-            />
-            <ColumnComponent
-                columnName={"⚪ Done"}
-                taskCount={getTaskCount(taskArrayC)}
-                tasks={taskArrayC}
-            />
+    return (
+        <div style={{marginLeft: "2vw"}}>
+            <div data-testid="required-column-list" className={"board-div grid grid-cols-3 gap-12 items-stretch"}>
+            <ColumnComponent columnName={'🔵 To Do (' + assignments.filter(assignment => assignment.status === "TODO").length + ')'}>
+                {assignments.filter(assignment => assignment.status === "TODO").map(assignment => (
+                <TaskProvider assignment={assignment}>
+                    <AssignmentComponent assignment={assignment}/>
+                </TaskProvider>
+                )
+            )}
+            </ColumnComponent>
+            <ColumnComponent columnName={'🔴 In Progress (' + assignments.filter(assignment => assignment.status === "In progress").length + ')'}>
+                {assignments.filter(assignment => assignment.status === "In progress").map(assignment => (
+                <TaskProvider assignment={assignment}>
+                    <AssignmentComponent assignment={assignment}/>
+                </TaskProvider>
+                )
+            )}
+            </ColumnComponent>
+            <ColumnComponent columnName={'⚪ Done (' + assignments.filter(assignment => assignment.status === "Done").length + ')'}>
+                {assignments.filter(assignment => assignment.status === "Done").map(assignment => (
+                <TaskProvider assignment={assignment}>
+                    <AssignmentComponent assignment={assignment}/>
+                </TaskProvider>
+                )
+            )}
+            </ColumnComponent>
+            </div>
         </div>
+    );
+}
+
+export default function BoardComponent(props) {
+
+    const boards = useContext(BoardContext);
+    const filter = useContext(FilterContext);
+    console.log(filter);
+    const [selectedBoard, setSelectedBoard] = useState(null);
+    if (boards.length > 0 && selectedBoard == null) {
+        setSelectedBoard(boards[0]);
+    }
+
+
+    return (
+        <div style={{display: "flex"}}>
+            {/*<HeaderComponent />*/}
+            {/* <NavbarComponent boards={boards.boards} selectedBoard={boards.selectedBoard} setSelectedBoard={boards.setSelectedBoard}/> */}
+            <AssignmentProvider board={boards.selectedBoard} filter={filter.filter}>
+                <LoadAssignmentBoard/>
+            </AssignmentProvider>
+            {/* <HeaderBoardComponent/> */}
+
+
+        </div>
+
     )
 }
