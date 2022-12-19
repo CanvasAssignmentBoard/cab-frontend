@@ -71,6 +71,11 @@ app.use(cors({
     }
 }))
 
+app.use(function (req, res, next) {
+    res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self';");
+    next();
+});
+
 app.get('/Board/All', (req: Request, res: Response) => {
 
     res.send(boards);

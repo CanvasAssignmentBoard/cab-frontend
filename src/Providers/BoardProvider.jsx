@@ -1,9 +1,9 @@
-import React, {useEffect, useState, createContext} from 'react';
+import React from 'react';
 
 function GetBoards(reloadBoards, setReloadBoards, selectedBoard, setSelectedBoard) {
-    const [boards, setBoards] = useState([]);
+    const [boards, setBoards] = React.useState([]);
     const host = process.env.REACT_APP_API_HOST
-    useEffect(() => {
+    React.useEffect(() => {
         if (boards.length == 0 || reloadBoards) {
             fetch(`${host}/board`)
                 .then(response => response.json())
@@ -19,11 +19,11 @@ function GetBoards(reloadBoards, setReloadBoards, selectedBoard, setSelectedBoar
     return boards;
 }
 
-export const BoardContext = createContext();
+export const BoardContext = React.createContext();
 
 export default function BoardProvider(props) {
-    const [reloadBoards, setReloadBoards] = useState(false);
-    const [selectedBoard, setSelectedBoard] = useState(null);
+    const [reloadBoards, setReloadBoards] = React.useState(false);
+    const [selectedBoard, setSelectedBoard] = React.useState(null);
     const boards = GetBoards(reloadBoards, setReloadBoards, selectedBoard, setSelectedBoard);
 
     function updateBoards() {
