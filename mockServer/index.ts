@@ -5,6 +5,7 @@ import cors from 'cors';
 import Assignment from './models/assignment';
 import Task from './models/task';
 import Course from './models/course';
+import joi from 'joi';
 
 dotenv.config();
 
@@ -71,6 +72,8 @@ app.use(cors({
     }
 }))
 
+app.use(express.json());
+
 app.use(function (req, res, next) {
     res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self';");
     next();
@@ -100,10 +103,47 @@ app.get('/course', (req: Request, res: Response) => {
 });
 
 app.post('/assignments/:courseId', (req, res) => {
-    const courseId = req.params.courseId;
-    const assignment = new Assignment(0, req.body.name, req.body.status, req.body.courseId, req.body.description, [], req.body.dueDate, req.body.createdAt, req.body.updatedAt, req.body.submission);
-    assignments.push(assignment);
-    res.send(assignment);
+    try {
+
+        console.log(req);
+        if (!req.body) {
+            throw new Error("Missing request Body");
+        }
+        const schema = joi.object().keys({
+            name: joi.string().min(3).max(200).required(),
+            status: joi.string().required(),
+            description: joi.string(),
+            dueDate: joi.date().required(),
+            submission: joi.string().required()
+        })
+
+        const paramResult = joi.number().required().messages({'number.base': "Invalid course id"}).validate(req.params.courseId);
+
+        if (paramResult.error) {
+            throw new Error(paramResult.error.details[0].message);
+        }
+
+        const result = schema.validate(req.body);
+
+        if (result.error) {
+            throw new Error(result.error.details[0].message);
+        }
+
+        const courseId = req.params.courseId as unknown as number;
+        const assignment = new Assignment(0, req.body.name, req.body.status, courseId, req.body.description, [], req.body.dueDate, new Date(Date.now()), new Date(Date.now()), req.body.submission);
+        assignments.push(assignment);
+        res.send(assignment);
+    } catch (err) {
+        if (err instanceof Error) {
+            console.error(err.message);
+            res.status(400).send(err.message);
+            return;
+        }else {
+            console.error(err);
+            res.status(400).send(err);
+        }
+    }
+
 })
 
 app.listen(port, () => {
