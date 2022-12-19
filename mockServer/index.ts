@@ -102,7 +102,7 @@ app.get('/course', (req: Request, res: Response) => {
     res.send(courses);
 });
 
-app.post('/assignments/:courseId', (req, res) => {
+app.post('/assignments', (req, res) => {
     try {
 
         console.log(req);
