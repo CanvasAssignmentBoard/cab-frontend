@@ -91,7 +91,7 @@ export default function CreateBoardComponent() {
                     <div
                         className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
                     >
-                        <div className="relative w-3/4 my-6 mx-auto max-w-3xl">
+                        <div className="relative w-3/4 my-6 mx-auto max-w-3xl" style={{marginTop: "20rem"}}>
                             {/*content*/}
                             <div
                                 className="border-0 w-auto rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
@@ -130,6 +130,21 @@ export default function CreateBoardComponent() {
                                             <div style={{display: 'grid', gridTemplateColumns: '165px 165px 165px 165px', height: '300px', overflowY: 'scroll'}} className="bg-gray-50 flex border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
                                                 {selectedCards.map((course) => <CoursePill course={course} selectedCards={selectedCards} setSelectedCards={setSelectedCards} handleRemoveItem={handleRemoveItem} />)}
                                             </div>
+                                        </div>
+                                        <div className="w-full ml-1">
+                                            <label htmlFor="columnCount"
+                                                   className="block mb-2 text-sm font-medium text-black-900 dark:text-gray-300">Column Amount</label>
+                                            <select id="columnCount"
+                                                    name="columnCount"
+                                                    required
+                                                    defaultValue="3"
+                                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                                                <option value="1">1 - To do,</option>
+                                                <option value="2">2 - To do, Done</option>
+                                                <option value="3">3 - To Do, In Progress, Done</option>
+                                                <option value="4">4 - Backlog, To Do, In Progress, Done</option>
+                                                <option value="5">5 - Backlog, To Do, In Progress, Review, Done</option>
+                                            </select>
                                         </div>
                                         <div className={"course-card-div flex space-x-5"} style={{display: 'grid', gridTemplateColumns: '220px 220px 220px', height: '300px', overflowY: 'scroll'}}>
                                             {courses.map((course) => <CoursePill course={course} selectedCards={selectedCards} setSelectedCards={setSelectedCards} handleRemoveItem={handleRemoveItem} />
