@@ -57,10 +57,11 @@ function TabbedNavigationComponent(props) {
                     {
                         boardModalShown && (
                             <div>
-                                <BoardModalComponent boardModalState={setBoardModalShown} boardName={boards.selectedBoard.name}/>
+                                <BoardModalComponent boardModalState={setBoardModalShown} boardName={boards.selectedBoard.name} boardDescription={boards.selectedBoard.description}/>
                             </div>
                         )
                     }
+                    {console.log(boards.selectedBoard)}
                     <div className="flex Tab-box-right">
                         <AiOutlineSearch className="Search-icon m-1" size={25}/>
                         <AiOutlineBell className="Bell-icon m-1" size={25}/>

@@ -103,7 +103,7 @@ export default function BoardModalComponent(props) {
                             <form className="space-y-6">
                                 <div>
                                     <label htmlFor="assignmentName" className="block mb-2 text-sm font-medium text-black-900">
-                                        Description:
+                                        Description: {props.boardDescription}
                                     </label>
                                 </div>
                                 <div>
