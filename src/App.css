@@ -43,6 +43,11 @@
   display: inline;
   margin-left: 13px;
 }
+
+.Board-text:hover {
+  cursor: pointer;
+}
+
 .form-control {
   display: block;
   width: 100%;

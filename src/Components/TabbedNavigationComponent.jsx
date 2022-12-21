@@ -2,13 +2,14 @@ import CreateAssignmentComponent from "../Components/CreateAssignmentComponent";
 import BoardComponent from "../Components/BoardComponent";
 import { Tab, Popover, Transition } from '@headlessui/react';
 import {TbLayoutList, TbLayoutColumns} from "react-icons/tb";
-import {AiOutlineSearch, AiOutlineBell} from "react-icons/ai";
+import {AiOutlineSearch, AiOutlineBell, AiOutlineInfo} from "react-icons/ai";
 import {TfiAgenda} from "react-icons/tfi";
 import {useState, useEffect, useContext} from "react";
 import NavbarComponent from "../Components/NavbarComponent";
 import {BoardContext} from "../Providers/BoardProvider";
 import { Fragment } from 'react'
 import {FilterContext} from "../Providers/FilterProvider";
+import BoardModalComponent from "./BoardModalComponent";
 
 function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
@@ -27,6 +28,10 @@ function TabbedNavigationComponent(props) {
     const [selectedItem, setSelectedItem] = useState(navItems[0]);
     const date = new Date();
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    const [boardModalShown, setBoardModalShown] = useState(false);
+    const handleClick = event => {
+        setBoardModalShown(true)
+    };
 
 
     console.log(navItems);
@@ -48,7 +53,14 @@ function TabbedNavigationComponent(props) {
             </div>
             <div className="px-2 m-0 Board-view-spacing">
                 <div className="flex App-header-spacing" style={{justifyContent: 'space-between'}}>
-                    <h2 className="w-3/4 Board-text mb-4"> {capitalizeFirstLetter(boards.selectedBoard.name)} | {capitalizeFirstLetter(selectedItem.name)}</h2>
+                    <h2 className="w-3/4 Board-text mb-4" onClick={handleClick}> {capitalizeFirstLetter(boards.selectedBoard.name)} | {capitalizeFirstLetter(selectedItem.name)}</h2>
+                    {
+                        boardModalShown && (
+                            <div>
+                                <BoardModalComponent boardModalState={setBoardModalShown} boardName={boards.selectedBoard.name}/>
+                            </div>
+                        )
+                    }
                     <div className="flex Tab-box-right">
                         <AiOutlineSearch className="Search-icon m-1" size={25}/>
                         <AiOutlineBell className="Bell-icon m-1" size={25}/>
