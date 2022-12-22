@@ -5,7 +5,7 @@ export default function ColumnComponent(props) {
 
     return (
         <div className={"all-columns"}>
-            <div className={"column-div"}>
+            <div className={"column-div"} style={{width: props.width + "vw"}}>
                 <div className={"column-header-div"}>
                     <p className={"column-header-text"}>
                         {props.columnName}
