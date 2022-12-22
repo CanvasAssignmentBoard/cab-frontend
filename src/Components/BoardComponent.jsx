@@ -9,41 +9,40 @@ import ColumnComponent from './ColumnComponent';
 import AssignmentComponent from './AssignmentComponent';
 import HeaderBoardComponent from "./HeaderBoardComponent";
 import {FilterContext} from "../Providers/FilterProvider";
+import ColumnProvider, {ColumnContext} from '../Providers/ColumnProvider';
 
 
-function LoadAssignmentBoard() {
-    const assignments = useContext(AssignmentContext).assignments;
-    console.log(assignments);
+function LoadColumns(props) {
+    const columns = useContext(ColumnContext).columns;
+
+    console.log(columns);
 
     return (
         <div style={{marginLeft: "2vw"}}>
             <div data-testid="required-column-list" className={"board-div grid grid-cols-3 gap-12 items-stretch"}>
-            <ColumnComponent columnName={'🔵 To Do (' + assignments.filter(assignment => assignment.status === "TODO").length + ')'}>
-                {assignments.filter(assignment => assignment.status === "TODO").map(assignment => (
-                <TaskProvider assignment={assignment}>
-                    <AssignmentComponent assignment={assignment}/>
-                </TaskProvider>
-                )
-            )}
-            </ColumnComponent>
-            <ColumnComponent columnName={'🔴 In Progress (' + assignments.filter(assignment => assignment.status === "In progress").length + ')'}>
-                {assignments.filter(assignment => assignment.status === "In progress").map(assignment => (
-                <TaskProvider assignment={assignment}>
-                    <AssignmentComponent assignment={assignment}/>
-                </TaskProvider>
-                )
-            )}
-            </ColumnComponent>
-            <ColumnComponent columnName={'⚪ Done (' + assignments.filter(assignment => assignment.status === "Done").length + ')'}>
-                {assignments.filter(assignment => assignment.status === "Done").map(assignment => (
-                <TaskProvider assignment={assignment}>
-                    <AssignmentComponent assignment={assignment}/>
-                </TaskProvider>
-                )
-            )}
-            </ColumnComponent>
+                {columns.map(column => (
+                    <ColumnComponent columnName={column.name}>
+                        <AssignmentProvider column={column} board={props.board}>
+                            <LoadAssignments column={column}/>
+                        </AssignmentProvider>
+                    </ColumnComponent>
+                ))}
             </div>
         </div>
+    );
+}
+function LoadAssignments(props) {
+    const assignments = useContext(AssignmentContext).assignments;
+    console.log(assignments);
+
+    return (
+        <>
+            {assignments.map(assignment => (
+                <TaskProvider assignment={assignment}>
+                    <AssignmentComponent assignment={assignment}/>
+                </TaskProvider>                                
+            ))}
+        </>
     );
 }
 
@@ -52,19 +51,24 @@ export default function BoardComponent(props) {
     const boards = useContext(BoardContext);
     const filter = useContext(FilterContext);
     console.log(filter);
-    const [selectedBoard, setSelectedBoard] = useState(null);
-    if (boards.length > 0 && selectedBoard == null) {
-        setSelectedBoard(boards[0]);
+    // const [selectedBoard, setSelectedBoard] = useState(null);
+    if (boards.length > 0 && boards.selectedBoard == null) {
+        if (boards.boards.length > 0) {
+            boards.setSelectedBoard(boards.boards[0]);
+        }
     }
+
+    console.log(boards)
+    // console.log(selectedBoard)
 
 
     return (
         <div style={{display: "flex"}}>
             {/*<HeaderComponent />*/}
             {/* <NavbarComponent boards={boards.boards} selectedBoard={boards.selectedBoard} setSelectedBoard={boards.setSelectedBoard}/> */}
-            <AssignmentProvider board={boards.selectedBoard} filter={filter.filter}>
-                <LoadAssignmentBoard/>
-            </AssignmentProvider>
+            <ColumnProvider board={boards.selectedBoard}>
+                <LoadColumns board={boards.selectedBoard}/>
+            </ColumnProvider>
             {/* <HeaderBoardComponent/> */}
 
 

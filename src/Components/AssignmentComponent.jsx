@@ -47,9 +47,18 @@ export default function AssignmentComponent(props) {
       setIsOpen(true)
     }
 
+    console.log(props);
     const currentDate = new Date();
     const deadlineDate = new Date(props.assignment.due_at);
 
+    let courseId = 0;
+    if (props.assignment.course_id === undefined) {
+        courseId = props.assignment.courseId;
+    } else {
+        courseId = props.assignment.course_id;
+    }
+
+    console.log(courseId);
     return (
         <>
         <div className={"assignment-div"} onClick={() => setIsOpen(true)}>
@@ -58,7 +67,7 @@ export default function AssignmentComponent(props) {
                     {props.assignment.name}
                 </p>
                 <p className={"assignment-header-subtext"}>
-                    {courses.find(course => course.id === props.assignment.course_id).name}
+                    {courses.find(course => course.id === courseId).name}
                 </p>
             </div>
             <div className={"assignment-body-div"}>
@@ -107,7 +116,7 @@ export default function AssignmentComponent(props) {
                                     <p className="text-sm text-gray-500" dangerouslySetInnerHTML={{__html: props.assignment.description}} />
                                 </div>
                                 <div style={{paddingLeft: '2vw', display: 'flex', flexDirection: 'column', width: '40%'}}>
-                                    <span><b>Course:</b> {courses.find(course => course.id === props.assignment.course_id).name}</span> 
+                                    <span><b>Course:</b> {courses.find(course => course.id === courseId).name}</span> 
                                     <span><b>Assignment status:</b> <AssignmentStatusComponent assignmentName={props.assignment.name}/></span>
                                     { props.assignment.due_at != null ? <span><b>Deadline:</b> <ChipFieldComponent style={{display: 'inline-block'}} title={deadlineDate.toISOString().split(/[T ]/i, 1)[0]} color={deadlineColor(props.assignment.dueDate)}/></span> : <></>}
                                     <TaskComponent assignment={props.assignment}/>

@@ -6,6 +6,7 @@ import Assignment from './models/assignment';
 import Task from './models/task';
 import Course from './models/course';
 import joi from 'joi';
+
 import courses from './data/courses';
 import boards from './data/boards';
 import assignments from './data/assignments';
@@ -37,9 +38,21 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.get('/Board/All', (req: Request, res: Response) => {
+app.get('/board', (req: Request, res: Response) => {
 
+    // let b: any[] = [];
+    // boards.forEach(board => {
+    //     b.push({...board, assignments: assignments.filter(assignment => board.courses.map(course => course.id).includes(assignment.courseId))});
+    // })
     res.send(boards);
+});
+app.get('/board/:boardId', (req: Request, res: Response) => {
+
+    // let b: any[] = [];
+    // boards.forEach(board => {
+    //     b.push({...board, assignments: assignments.filter(assignment => board.courses.map(course => course.id).includes(assignment.courseId))});
+    // })
+    res.send(boards.find(board => board.id === parseInt(req.params.boardId)));
 });
 
 app.get('/assignment/:boardId', (req: Request, res: Response) => {
@@ -58,6 +71,11 @@ app.get('/course/:courseId', (req: Request, res: Response) => {
 
 app.get('/course', (req: Request, res: Response) => {
     res.send(courses);
+});
+
+app.get('/task/:assignmentId', (req: Request, res: Response) => {
+    const assignmentId = req.params.assignmentId;
+    res.send(assignments.find(assignment => assignment.id === parseInt(assignmentId))?.tasks);
 });
 
 app.post('/assignments/:courseId', (req, res) => {

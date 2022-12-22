@@ -32,8 +32,19 @@ app.use(function (req, res, next) {
     res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self';");
     next();
 });
-app.get('/Board/All', (req, res) => {
+app.get('/board', (req, res) => {
+    // let b: any[] = [];
+    // boards.forEach(board => {
+    //     b.push({...board, assignments: assignments.filter(assignment => board.courses.map(course => course.id).includes(assignment.courseId))});
+    // })
     res.send(boards_1.default);
+});
+app.get('/board/:boardId', (req, res) => {
+    // let b: any[] = [];
+    // boards.forEach(board => {
+    //     b.push({...board, assignments: assignments.filter(assignment => board.courses.map(course => course.id).includes(assignment.courseId))});
+    // })
+    res.send(boards_1.default.find(board => board.id === parseInt(req.params.boardId)));
 });
 app.get('/assignment/:boardId', (req, res) => {
     const boardId = req.params.boardId;
@@ -49,6 +60,11 @@ app.get('/course/:courseId', (req, res) => {
 });
 app.get('/course', (req, res) => {
     res.send(courses_1.default);
+});
+app.get('/task/:assignmentId', (req, res) => {
+    var _a;
+    const assignmentId = req.params.assignmentId;
+    res.send((_a = assignments_1.default.find(assignment => assignment.id === parseInt(assignmentId))) === null || _a === void 0 ? void 0 : _a.tasks);
 });
 app.post('/assignments/:courseId', (req, res) => {
     try {
