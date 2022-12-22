@@ -14,7 +14,7 @@ import {FilterContext} from "../Providers/FilterProvider";
 function LoadAssignmentBoard() {
     const assignments = useContext(AssignmentContext).assignments;
     console.log(assignments);
-    const columnCount = 4
+    const columnCount = 2
 
     return (
         <div style={{marginLeft: "2vw"}}>
