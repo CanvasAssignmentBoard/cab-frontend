@@ -54,7 +54,7 @@ function Task(props) {
             <div className={"task-checkbox-div"}>
                 <input type="checkbox" defaultChecked={task.status == 'checked'} className={"task-checkbox"} onChange={(event) => submitTask(event)}/>
             </div>
-            <TaskInput assignment={props.assignment} create={props.create} setNewTasks={props.setNewTasks} task={props.task} setTask={props.setTask}/>
+            <TaskInput assignment={props.assignment} create={props.create} setNewTasks={props.setNewTasks} task={task} setTask={setTask} setReloadTasks={props.setReloadTasks}/>
         </div>
     )
 }
@@ -62,6 +62,7 @@ function Task(props) {
 function TaskInput(props) {
     const [submit, setSubmit] = useState(false);
     const host = process.env.REACT_APP_API_HOST
+    const context = useContext(TaskContext);
 
     useEffect(() => {
         if (submit) {
@@ -80,12 +81,7 @@ function TaskInput(props) {
                 }).then(function(response) {
                     if (response.ok) {
                         console.log("Task updated");
-                        fetch(`${host}/task/${props.assignment.id}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            console.log(data);
-                            props.setNewTasks(data);
-                        });
+                        context.setReloadTasks(true);
                     } else {
                         console.log("Task update failed");
                     }
@@ -110,12 +106,7 @@ function TaskInput(props) {
                 }).then(function(response) {
                     if (response.ok) {
                         console.log("Task updated");
-                        fetch(`${host}/task/${props.assignment.id}`)
-                        .then(response => response.json())
-                        .then(data => {
-                            console.log(data);
-                            props.setNewTasks(data);
-                        });
+                        context.setReloadTasks(true);
                     } else {
                         console.log("Task update failed");
                     }
@@ -158,7 +149,7 @@ function TaskText(props) {
 function TaskList(props) {
     return (
         <div className={"task-list-div"}>
-            {props.tasks.map(task => {
+            {props.newTasks.map(task => {
                 return (
                     <Task task={task} assignment={props.assignment} create={props.create} setNewTasks={props.setNewTasks}/>
                 )
@@ -168,26 +159,26 @@ function TaskList(props) {
 }
 
 export default function TaskComponent(props) {
-    const tasks = useContext(TaskContext);
-    const [newTasks, setNewTasks] = useState(tasks);
-    const [progress, setProgress] = useState(0);
+    const context = useContext(TaskContext);
+    const [newTasks, setNewTasks] = useState(context.tasks);
+    
 
     useEffect(() => {
         if (newTasks.length > 0) {
-            setProgress(Math.ceil(100 / newTasks.length * newTasks.filter(task => {
+            props.setProgress(Math.ceil(100 / newTasks.length * newTasks.filter(task => {
                 return task.status === "checked";
             }).length))
         }
     }, [newTasks]);
 
-    if (tasks === undefined) {
+    if (context.tasks === undefined) {
         return <></>;
     }
 
     return (
         <div style={{marginTop: '2vh'}}>
-            <ProgressBarComponent progress={progress}/> 
-            <TaskList tasks={newTasks} assignment={props.assignment} setNewTasks={setNewTasks}/>
+            <ProgressBarComponent progress={props.progress}/> 
+            <TaskList tasks={newTasks} assignment={props.assignment} setNewTasks={setNewTasks} newTasks={newTasks}/>
             <button
             type="button"
             className="inline-flex justify-center rounded-md border border-blue bg-white-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"

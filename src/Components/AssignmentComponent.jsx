@@ -1,4 +1,4 @@
-import React, {useState, Fragment} from 'react';
+import React, {useState, Fragment, useEffect} from 'react';
 import "./css/AssignmentComponent.css";
 import {IoMdArrowDropdown, IoMdArrowDropright} from "react-icons/io";
 import ProgressBarComponent from './ProgressBarComponent';
@@ -31,11 +31,20 @@ export default function AssignmentComponent(props) {
 
     const [showModal, setShowModal] = useState(false);
     const courses = useContext(CourseContext);
-    const tasks = useContext(TaskContext);
+    const taskContext = useContext(TaskContext);
+    const [progress, setProgress] = useState(0);
+
+    useEffect(() => {
+        if (taskContext.tasks.length > 0) {
+            setProgress(Math.ceil(100 / taskContext.tasks.length * taskContext.tasks.filter(task => {
+                return task.status === "checked";
+            }).length))
+        }
+    }, [taskContext.tasks]);
     
     let [isOpen, setIsOpen] = useState(false)
 
-    if (courses === undefined || tasks === undefined) {
+    if (courses === undefined || taskContext.tasks === undefined) {
         return <></>;
     }
 
@@ -62,10 +71,8 @@ export default function AssignmentComponent(props) {
                 </p>
             </div>
             <div className={"assignment-body-div"}>
-                {tasks.length > 0 ? 
-                    <ProgressBarComponent progress={Math.ceil((100 / tasks.length * tasks.filter(task => {
-                        return task.status === "checked";
-                    }).length))}/> 
+                {taskContext.tasks.length > 0 ? 
+                    <ProgressBarComponent progress={progress}/> 
                 : <></>}
                 { props.assignment.due_at != null ? <ChipFieldComponent title={deadlineDate.toISOString().split(/[T ]/i, 1)[0]} color={deadlineColor(props.assignment.dueDate)}/> : <></>}
             </div>
@@ -110,7 +117,7 @@ export default function AssignmentComponent(props) {
                                     <span><b>Course:</b> {courses.find(course => course.id === props.assignment.course_id).name}</span> 
                                     <span><b>Assignment status:</b> <AssignmentStatusComponent assignmentName={props.assignment.name}/></span>
                                     { props.assignment.due_at != null ? <span><b>Deadline:</b> <ChipFieldComponent style={{display: 'inline-block'}} title={deadlineDate.toISOString().split(/[T ]/i, 1)[0]} color={deadlineColor(props.assignment.dueDate)}/></span> : <></>}
-                                    <TaskComponent assignment={props.assignment}/>
+                                    <TaskComponent assignment={props.assignment} progress={progress} setProgress={setProgress}/>
                                 </div>
                             </div>
 
