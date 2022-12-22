@@ -5,55 +5,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
-const board_1 = __importDefault(require("./models/board"));
 const cors_1 = __importDefault(require("cors"));
 const assignment_1 = __importDefault(require("./models/assignment"));
-const task_1 = __importDefault(require("./models/task"));
-const course_1 = __importDefault(require("./models/course"));
 const joi_1 = __importDefault(require("joi"));
+const courses_1 = __importDefault(require("./data/courses"));
+const boards_1 = __importDefault(require("./data/boards"));
+const assignments_1 = __importDefault(require("./data/assignments"));
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT || 3000;
-const courses = [
-    new course_1.default(1, 'Course 1', new Date(), new Date()),
-    new course_1.default(2, 'Course 2', new Date(), new Date()),
-    new course_1.default(3, 'Course 3', new Date(), new Date())
-];
-const boards = [
-    new board_1.default(1, 'Board 1', courses),
-    new board_1.default(2, 'Board 2', [courses[0]]),
-    new board_1.default(3, 'Board 3', [courses[1], courses[2]]),
-];
-const tasks = [
-    new task_1.default(1, 'Task 1', "", 1, new Date(), new Date(), true),
-    new task_1.default(2, 'Task 2', "", 1, new Date(), new Date(), true),
-    new task_1.default(3, 'Task 3', "", 1, new Date(), new Date(), false),
-    new task_1.default(4, 'Task 4', "", 2, new Date(), new Date(), false),
-    new task_1.default(5, 'Task 5', "", 2, new Date(), new Date(), false),
-    new task_1.default(6, 'Task 6', "", 3, new Date(), new Date(), true),
-    new task_1.default(7, 'Task 7', "", 3, new Date(), new Date(), true),
-    new task_1.default(8, 'Task 8', "", 4, new Date(), new Date(), true),
-    new task_1.default(9, 'Task 9', "", 5, new Date(), new Date(), true),
-    new task_1.default(10, 'Task 10', "", 5, new Date(), new Date(), true),
-    new task_1.default(11, 'Task 11', "", 6, new Date(), new Date(), true),
-    new task_1.default(12, 'Task 12', "", 6, new Date(), new Date(), true)
-];
-const deadlineDates = [
-    new Date(2022, 11, 15),
-    new Date(2022, 11, 18),
-    new Date(2022, 11, 7),
-    new Date(2022, 11, 20),
-    new Date(2022, 11, 4),
-    new Date(2022, 11, 22),
-];
-const assignments = [
-    new assignment_1.default(1, 'Assignment 1', "TODO", 1, 'Description 1', tasks.filter(task => task.assignmentId === 1), deadlineDates[0], new Date(), new Date(), 1),
-    new assignment_1.default(2, 'Assignment 2', "TODO", 1, 'Description 2', tasks.filter(task => task.assignmentId === 2), deadlineDates[1], new Date(), new Date(), 1),
-    new assignment_1.default(3, 'Assignment 3', "In progress", 2, 'Description 3', tasks.filter(task => task.assignmentId === 3), deadlineDates[2], new Date(), new Date(), 1),
-    new assignment_1.default(4, 'Assignment 4', "In progress", 1, 'Description 4', tasks.filter(task => task.assignmentId === 4), deadlineDates[3], new Date(), new Date(), 1),
-    new assignment_1.default(5, 'Assignment 5', "Done", 3, 'Description 5', tasks.filter(task => task.assignmentId === 5), deadlineDates[4], new Date(), new Date(), 1),
-    new assignment_1.default(6, 'Assignment 6', "Done", 2, 'Description 6', tasks.filter(task => task.assignmentId === 6), deadlineDates[5], new Date(), new Date(), 1)
-];
 const allowedList = ['http://localhost:3001'];
 app.use((0, cors_1.default)({
     origin: (origin, callback) => {
@@ -73,22 +33,22 @@ app.use(function (req, res, next) {
     next();
 });
 app.get('/Board/All', (req, res) => {
-    res.send(boards);
+    res.send(boards_1.default);
 });
 app.get('/assignment/:boardId', (req, res) => {
     const boardId = req.params.boardId;
-    const board = boards.find(board => board.id === parseInt(boardId));
+    const board = boards_1.default.find(board => board.id === parseInt(boardId));
     console.log(board);
     if (board) {
-        res.send(assignments.filter(assignment => board.courses.map(course => course.id).includes(assignment.courseId)));
+        res.send(assignments_1.default.filter(assignment => board.courses.map(course => course.id).includes(assignment.courseId)));
     }
 });
 app.get('/course/:courseId', (req, res) => {
     const courseId = req.params.courseId;
-    res.send(courses.filter(course => course.id === parseInt(courseId)));
+    res.send(courses_1.default.filter(course => course.id === parseInt(courseId)));
 });
 app.get('/course', (req, res) => {
-    res.send(courses);
+    res.send(courses_1.default);
 });
 app.post('/assignments/:courseId', (req, res) => {
     try {
@@ -113,7 +73,7 @@ app.post('/assignments/:courseId', (req, res) => {
         }
         const courseId = req.params.courseId;
         const assignment = new assignment_1.default(0, req.body.name, req.body.status, courseId, req.body.description, [], req.body.dueDate, new Date(Date.now()), new Date(Date.now()), req.body.submission);
-        assignments.push(assignment);
+        assignments_1.default.push(assignment);
         res.send(assignment);
     }
     catch (err) {
