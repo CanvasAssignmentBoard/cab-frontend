@@ -9,7 +9,7 @@ export default function NavbarListComponent(props){
             {props.title}
             {showItems === false ?
                 <div className={'title-arrow'}>
-                    >
+                    
                 </div>
                 :
                 <div className={'title-arrow'}>

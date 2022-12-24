@@ -13,7 +13,7 @@ import TaskComponent from './TaskComponent';
 
 
 function deadlineColor(date) {
-    console.log(date);
+    // console.log(date);
     const currentDate = new Date();
     const deadlineDate = new Date(date);
     const difference = deadlineDate - currentDate;
@@ -47,7 +47,7 @@ export default function AssignmentComponent(props) {
       setIsOpen(true)
     }
 
-    console.log(props);
+    // console.log(props);
     const currentDate = new Date();
     const deadlineDate = new Date(props.assignment.due_at);
 
@@ -58,7 +58,7 @@ export default function AssignmentComponent(props) {
         courseId = props.assignment.course_id;
     }
 
-    console.log(courseId);
+    // console.log(courseId);
     return (
         <>
         <div className={"assignment-div"} onClick={() => setIsOpen(true)}>

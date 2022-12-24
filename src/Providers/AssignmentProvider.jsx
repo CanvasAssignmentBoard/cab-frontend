@@ -4,7 +4,7 @@ import {FilterContext} from './FilterProvider';
 
 function GetAssignments(boardId, columnId, filter) {
     const [assignments, setAssignments] = useState([]);
-    console.log(filter);
+    // console.log(filter);
     const host = process.env.REACT_APP_API_HOST
     useEffect(() => {
         if (columnId === null || columnId === undefined) {
@@ -19,7 +19,7 @@ function GetAssignments(boardId, columnId, filter) {
             });
     }, [boardId, columnId, filter, host]);
 
-    console.log(assignments);
+    // console.log(assignments);
     return assignments;
 }
 

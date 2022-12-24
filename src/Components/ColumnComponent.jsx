@@ -1,5 +1,6 @@
 import React from 'react';
 import "./css/ColumnComponent.css";
+import {DragDropContext, Droppable, Draggable} from "react-beautiful-dnd";
 
 export default function ColumnComponent(props) {
 

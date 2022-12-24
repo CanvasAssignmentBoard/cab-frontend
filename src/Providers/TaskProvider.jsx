@@ -15,7 +15,7 @@ function GetTasks(assignmentId) {
             });
     }, [assignmentId, host]);
 
-    console.log(tasks);
+    // console.log(tasks);
     return tasks;
 }
 
