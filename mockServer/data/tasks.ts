@@ -16,4 +16,9 @@ const tasks = [
 
 ]
 
+export function getNewTaskId() {
+    if (tasks.length === 0) return 1;
+    return Math.max(...tasks.map(task => task.id)) + 1;
+}
+
 export default tasks;

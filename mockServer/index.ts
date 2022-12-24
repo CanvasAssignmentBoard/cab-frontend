@@ -10,6 +10,10 @@ import joi from 'joi';
 import courses from './data/courses';
 import boards from './data/boards';
 import assignments from './data/assignments';
+import { createTask, deleteTask, getTaskByAssignment, getTasks, updateTask } from './routes/task';
+import { getCourses } from './routes/course';
+import { createAssignment, moveAssignment } from './routes/assignment';
+import { createBoard, getBoard, getBoards } from './routes/board';
 
 
 dotenv.config();
@@ -38,89 +42,68 @@ app.use(function (req, res, next) {
     next();
 });
 
-app.get('/board', (req: Request, res: Response) => {
 
-    // let b: any[] = [];
-    // boards.forEach(board => {
-    //     b.push({...board, assignments: assignments.filter(assignment => board.courses.map(course => course.id).includes(assignment.courseId))});
-    // })
-    res.send(boards);
+// Tasks
+app.get("/task", function (req: Request, res: Response) {
+    getTasks(req, res);
+});
+app.get("/task/:assignmentId", function (req: Request, res: Response) {
+    getTaskByAssignment(req, res);
+})
+app.post('/task', (req: Request, res: Response) => {
+    createTask(req, res);
+});
+app.put("/task", (req: Request, res: Response) => {
+    updateTask(req, res);
+})
+app.delete("/task/:taskId", (req: Request, res: Response) => {
+    deleteTask(req, res);
+})
+
+// Boards
+app.get('/board', (req: Request, res: Response) => {
+    getBoards(req, res);
 });
 app.get('/board/:boardId', (req: Request, res: Response) => {
-
-    // let b: any[] = [];
-    // boards.forEach(board => {
-    //     b.push({...board, assignments: assignments.filter(assignment => board.courses.map(course => course.id).includes(assignment.courseId))});
-    // })
-    res.send(boards.find(board => board.id === parseInt(req.params.boardId)));
+    getBoard(req, res);
 });
-
-app.get('/assignment/:boardId', (req: Request, res: Response) => {
-    const boardId = req.params.boardId;
-    const board = boards.find(board => board.id === parseInt(boardId));
-    console.log(board);
-    if (board) {
-        res.send(assignments.filter(assignment => board.courses.map(course => course.id).includes(assignment.courseId)));
-    }
+app.post('/board', (req: Request, res: Response) => {
+    createBoard(req, res);
+})
+// Assignments
+// You can get all assignments with the board call.
+app.post("/assignment/:boardId", (req: Request, res: Response) => {
+    createAssignment(req, res);
+})
+app.put('/assignment/move/:assignmentId', (req: Request, res: Response) => {
+    moveAssignment(req, res);
 })
 
-app.get('/course/:courseId', (req: Request, res: Response) => {
-    const courseId = req.params.courseId;
-    res.send(courses.filter(course => course.id === parseInt(courseId)));
-});
-
+// Courses
 app.get('/course', (req: Request, res: Response) => {
-    res.send(courses);
+    getCourses(req, res);
 });
 
-app.get('/task/:assignmentId', (req: Request, res: Response) => {
-    const assignmentId = req.params.assignmentId;
-    res.send(assignments.find(assignment => assignment.id === parseInt(assignmentId))?.tasks);
-});
+// Columns
 
-app.post('/assignments/:courseId', (req, res) => {
-    try {
+// app.get('/assignment/:boardId', (req: Request, res: Response) => {
+//     const boardId = req.params.boardId;
+//     const board = boards.find(board => board.id === parseInt(boardId));
+//     console.log(board);
+//     if (board) {
+//         res.send(assignments.filter(assignment => board.courses.map(course => course.id).includes(assignment.courseId)));
+//     }
+// })
 
-        console.log(req);
-        if (!req.body) {
-            throw new Error("Missing request Body");
-        }
-        const schema = joi.object().keys({
-            name: joi.string().min(3).max(200).required(),
-            status: joi.string().required(),
-            description: joi.string(),
-            dueDate: joi.date().required(),
-            submission: joi.string().required()
-        })
+// app.get('/course/:courseId', (req: Request, res: Response) => {
+//     const courseId = req.params.courseId;
+//     res.send(courses.filter(course => course.id === parseInt(courseId)));
+// });
 
-        const paramResult = joi.number().required().messages({'number.base': "Invalid course id"}).validate(req.params.courseId);
-
-        if (paramResult.error) {
-            throw new Error(paramResult.error.details[0].message);
-        }
-
-        const result = schema.validate(req.body);
-
-        if (result.error) {
-            throw new Error(result.error.details[0].message);
-        }
-
-        const courseId = req.params.courseId as unknown as number;
-        const assignment = new Assignment(0, req.body.name, req.body.status, courseId, req.body.description, [], req.body.dueDate, new Date(Date.now()), new Date(Date.now()), req.body.submission);
-        assignments.push(assignment);
-        res.send(assignment);
-    } catch (err) {
-        if (err instanceof Error) {
-            console.error(err.message);
-            res.status(400).send(err.message);
-            return;
-        }else {
-            console.error(err);
-            res.status(400).send(err);
-        }
-    }
-
-})
+// app.get('/task/:assignmentId', (req: Request, res: Response) => {
+//     const assignmentId = req.params.assignmentId;
+//     res.send(assignments.find(assignment => assignment.id === parseInt(assignmentId))?.tasks);
+// });
 
 app.listen(port, () => {
     console.log(`Mock server listening at http://localhost:${port}`);

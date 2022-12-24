@@ -22,6 +22,6 @@ export default class Assignment {
     createdAt: Date
     updatedAt: Date;
     dueDate: Date;
-    courseId: number
-    submission: number
+    courseId: number;
+    submission: number;
 }

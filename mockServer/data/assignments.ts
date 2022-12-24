@@ -20,4 +20,9 @@ const assignments = [
     new Assignment(6, 'Assignment 6', status.done, 2, 'Description 6', tasks.filter(task => task.assignmentId === 6), deadlineDates[5], new Date(), new Date(), 1)
 ]
 
+export function getNewAssignmentId() {
+    if (assignments.length === 0) return 1;
+    return Math.max(...assignments.map(assignment => assignment.id)) + 1;
+}
+
 export default assignments;

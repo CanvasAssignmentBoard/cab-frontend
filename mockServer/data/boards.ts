@@ -8,4 +8,9 @@ const boards = [
     new Board(3, 'Board 3', [courses[1], courses[2]], columns),
 ];
 
+export function getNewBoardId() {
+    if (boards.length === 0) return 1;
+    return Math.max(...boards.map(board => board.id)) + 1;
+}
+
 export default boards;
