@@ -6,6 +6,24 @@ import {CourseContext} from "../Providers/CourseProvider";
 export default function CreateAssignmentComponent() {
     const [showModal, setShowModal] = React.useState(false);
     const courses = useContext(CourseContext);
+
+    const backendCall = (data) => {
+        fetch('http://localhost:3000/assignment/create', {
+            method: 'POST', // or 'PUT'
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then((response) => response.json())
+            .then((data) => {
+                console.log('Success:', data);
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+    }
+
     return (
         <>
             <button
@@ -57,9 +75,12 @@ export default function CreateAssignmentComponent() {
                                                         required
                                                         defaultValue="OL-Servi-Huijbregts-I346215"
                                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                                    <option value="1">{courses[0]}</option>
-                                                    <option value="2">GRAD8-CMK-T</option>
-                                                    <option value="3">ICT-OL-CMK-N22</option>
+                                                    {courses.map((a) => {
+                                                        console.log(a.name);
+                                                        return (
+                                                            <option value={a.id}>{a.name}</option>
+                                                        )
+                                                    })}
                                                 </select>
                                             </div>
                                         </div>
@@ -83,6 +104,13 @@ export default function CreateAssignmentComponent() {
                                                 <option value="Website URL">Website URL</option>
                                             </select>
                                         </div>
+                                        <div>
+                                            <label htmlFor="dueDate"
+                                                   className="block mb-2 text-sm font-medium text-black-900 dark:text-gray-300">Due date (YYYY/MM/DD)*</label>
+                                            <input type="text" name="dueDate" id="dueDate"
+                                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                                                   placeholder="Due date" required/>
+                                        </div>
                                         <div
                                             className="flex items-center justify-end pt-6 border-t border-solid border-slate-200 rounded-b">
                                             <button
@@ -96,20 +124,13 @@ export default function CreateAssignmentComponent() {
                                                 className="bg-blue-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                                                 type="button"
                                                 onClick={() =>{
-                                                    console.log(
-                                                        "API Call: " +
-                                                        "\n Assignment Name: " +
-                                                        document.getElementById("assignmentName").value
-                                                        + "\n Assignment Status: " +
-                                                        document.getElementById("assignmentStatus").value
-                                                        + "\n Course ID: " +
-                                                        document.getElementById("courseName").value
-                                                        + "\n Assignment Description: " +
-                                                        document.getElementById("assignmentDescription").value
-                                                        + "\n Submission Type: " +
-                                                        document.getElementById("submissionType").value
-                                                        + "\n created_at: " +
-                                                        "22/12/2022"
+                                                    backendCall({
+                                                        courseID:  document.getElementById("courseName").value,
+                                                        assignment: {
+                                                            name: document.getElementById("assignmentName").value,
+                                                            description:  document.getElementById("assignmentDescription").value
+                                                        }
+                                                        }
                                                     );
                                                     setShowModal(false);
                                                 }}
