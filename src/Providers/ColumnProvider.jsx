@@ -8,7 +8,7 @@ function GetColumns(boardId, reloadColumns, setReloadColumns) {
             fetch(`${host}/board/${boardId}`)
                 .then(response => response.json())
                 .then(data => {
-                    setColumns(data.columns)
+                    setColumns(data.rows)
                 });
             setReloadColumns(false);
         }
