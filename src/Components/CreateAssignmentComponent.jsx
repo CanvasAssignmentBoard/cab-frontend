@@ -1,10 +1,11 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {AiOutlineClose} from "react-icons/ai";
 import "./css/CreateAssignmentComponent.css";
+import {CourseContext} from "../Providers/CourseProvider";
 
 export default function CreateAssignmentComponent() {
     const [showModal, setShowModal] = React.useState(false);
-
+    const courses = useContext(CourseContext);
     return (
         <>
             <button
@@ -48,26 +49,6 @@ export default function CreateAssignmentComponent() {
                                                    placeholder="Assignment Name" required/>
                                         </div>
                                         <div className="flex">
-                                            <div className="w-full mr-1">
-                                                <label htmlFor="assignmentStatus"
-                                                       className="block mb-2 text-sm font-medium text-black-900 dark:text-gray-300">Assignment
-                                                    Status *</label>
-                                                <select id="assignmentStatus"
-                                                        name="assignmentStatus"
-                                                        required
-                                                        defaultValue="🔵 Waiting for feedback"
-                                                        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                                    <option value="🔵">🔵 Waiting for feedback</option>
-                                                    <option value="⚪️">⚪️ Can be graded</option>
-                                                    <option value="🔴">🔴 Reviewed</option>
-                                                    <option value="✅">✅ Graded</option>
-                                                    <option value="🏁">🏁 Graded and processed</option>
-                                                    <option value="🔵⚪️">🔵⚪️ Needs feedback and grade</option>
-                                                    <option value="✅🔵">✅🔵 Graded but needs feedback</option>
-                                                    <option value="✅🔴">✅🔴 Graded and reviewed</option>
-                                                    <option value="🚷">🚷 Obsolete</option>
-                                                </select>
-                                            </div>
                                             <div className="w-full ml-1">
                                                 <label htmlFor="courseName"
                                                        className="block mb-2 text-sm font-medium text-black-900 dark:text-gray-300">Course Name *</label>
@@ -76,7 +57,7 @@ export default function CreateAssignmentComponent() {
                                                         required
                                                         defaultValue="OL-Servi-Huijbregts-I346215"
                                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
-                                                    <option value="1">OL-Servi-Huijbregts-I346215</option>
+                                                    <option value="1">{courses[0]}</option>
                                                     <option value="2">GRAD8-CMK-T</option>
                                                     <option value="3">ICT-OL-CMK-N22</option>
                                                 </select>

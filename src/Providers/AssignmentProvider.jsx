@@ -15,8 +15,8 @@ function GetAssignments(boardId, columnId, filter) {
             .then(response => response.json())
             .then(data => {
                 console.log(columnId);
-                console.log(data.columns.find(column => column.id === columnId).assignments);
-                setAssignments(data.columns.find(column => column.id === columnId).assignments.filter(assignment => { return (Date.parse(assignment.due_at) <= Date.parse(filter.deadline) || filter.deadline == null); }));
+                console.log(data.rows.find(column => column.id === columnId).assignments);
+                setAssignments(data.rows.find(column => column.id === columnId).assignments.filter(assignment => { return (Date.parse(assignment.due_at) <= Date.parse(filter.deadline) || filter.deadline == null); }));
             });
     }, [boardId, columnId, filter, host]);
 
