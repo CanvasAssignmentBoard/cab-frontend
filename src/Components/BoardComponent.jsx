@@ -14,6 +14,7 @@ import {DragDropContext, Draggable} from 'react-beautiful-dnd';
 import Droppable from "./StrictModeDroppable.tsx";
 
 const grid = 8;
+const host = process.env.REACT_APP_API_HOST;
 const getItemStyle = (isDragging, draggableStyle) => ({
     // some basic styles to make the items look a bit nicer
     userSelect: "none",
@@ -40,9 +41,29 @@ Array.from({ length: count }, (v, k) => k).map((k) => ({
   content: `item ${k + offset}`
 }));
 
-const reorder = (list, startIndex, endIndex) => {
+const reorder = (list, startIndex, endIndex, updateBoards) => {
+
     const result = Array.from(list);
+
+    let id = result[startIndex].id;
+
+    fetch(`${host}/Row/Reorder/${id}/${endIndex}`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({})
+    }).then(response => {
+      if (response.status === 201) {
+        console.log("Reorder successful");
+        updateBoards();
+      } else {
+        console.log("Reorder failed");
+        updateBoards();
+      }
+    });
     const [removed] = result.splice(startIndex, 1);
+    
     result.splice(endIndex, 0, removed);
 
     result.forEach((item, index) => {
@@ -55,9 +76,31 @@ const reorder = (list, startIndex, endIndex) => {
 /**
 * Moves an item from one list to another list.
 */
-const move = (source, destination, droppableSource, droppableDestination) => {
+const move = (source, destination, droppableSource, droppableDestination, columns, updateBoards) => {
+    console.log(columns)
     const sourceClone = Array.from(source);
     const destClone = Array.from(destination);
+
+    let index = parseInt(droppableSource.droppableId.split("-")[1]);
+    let id = columns[index].id
+    let aid = source[droppableSource.index].id
+    
+    fetch(`${host}/Row/Move/${aid}/${id}/${droppableDestination.index}`, {
+      method: 'POST',
+      headers: {
+          'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({})
+    }).then(response => {
+      if (response.status === 201) {
+
+        console.log("moved successful");
+        updateBoards();
+      } else {
+        console.log("moved failed");
+        updateBoards();
+      }
+    });
     const [removed] = sourceClone.splice(droppableSource.index, 1);
 
     destClone.splice(droppableDestination.index, 0, removed);
@@ -80,12 +123,12 @@ const move = (source, destination, droppableSource, droppableDestination) => {
 
 function LoadTestDragDrop() {
     const [state, setState] = useState([getItems(10), getItems(5, 10)]);
+    const columns = useContext(ColumnContext).columns;
 
     console.log(state);
     function onDragEnd(result) {
         const { source, destination } = result;
 
-        console.log(source, destination);
     
         // dropped outside the list
         if (!destination) {
@@ -100,7 +143,7 @@ function LoadTestDragDrop() {
           newState[sInd] = items;
           setState(newState);
         } else {
-          const result = move(state[sInd], state[dInd], source, destination);
+          const result = move(state[sInd], state[dInd], source, destination, columns);
           const newState = [...state];
           newState[sInd] = result[sInd];
           newState[dInd] = result[dInd];
@@ -197,6 +240,7 @@ function LoadTestDragDrop() {
 
 function LoadColumns(props) {
     const columns = useContext(ColumnContext).columns;
+    const board = useContext(BoardContext);
     
     const [state, setState] = useState([]);
 
@@ -225,8 +269,6 @@ function LoadColumns(props) {
         }
     }
 
-    console.log(state);
-
     function onDragEnd(result) {
         const { source, destination } = result;
     
@@ -235,19 +277,16 @@ function LoadColumns(props) {
           return;
         }
 
-        console.log(source, destination);
         const sInd = source.droppableId;
         const dInd = destination.droppableId;
-
-        console.log(sInd, dInd);
     
         if (sInd === dInd) {
-            const items = reorder(state[sInd], source.index, destination.index);
+            const items = reorder(state[sInd], source.index, destination.index, board.updateBoards);
             const newState = {...state};
             newState[sInd] = items;
             setState(newState);
         } else {
-            const result = move(state[sInd], state[dInd], source, destination);
+            const result = move(state[sInd], state[dInd], source, destination, columns, board.updateBoards);
             const newState = {...state};
 
             newState[sInd] = result[sInd];
@@ -256,8 +295,6 @@ function LoadColumns(props) {
             setState(newState);
         }
     }
-
-    console.log(columns)
 
     return (
         <div style={{marginLeft: "2vw"}}>
@@ -290,7 +327,6 @@ function LoadColumns(props) {
 }
 function LoadAssignments(props) {
     // const assignments = useContext(AssignmentContext).assignments;
-    console.log(props.assignments);
 
     return (
         <>

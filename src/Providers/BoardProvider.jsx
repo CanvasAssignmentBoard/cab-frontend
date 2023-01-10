@@ -4,7 +4,9 @@ function GetBoards(reloadBoards, setReloadBoards, selectedBoard, setSelectedBoar
     const [boards, setBoards] = React.useState([]);
     const host = process.env.REACT_APP_API_HOST
     React.useEffect(() => {
+        console.log("Really why no reload :(")
         if (boards.length == 0 || reloadBoards) {
+            console.log("pfff ::::::::")
             fetch(`${host}/board`)
                 .then(response => response.json())
                 .then(data => {
@@ -27,6 +29,7 @@ export default function BoardProvider(props) {
     const boards = GetBoards(reloadBoards, setReloadBoards, selectedBoard, setSelectedBoard);
 
     function updateBoards() {
+        console.log("reload");
         setReloadBoards(true);
     }
 

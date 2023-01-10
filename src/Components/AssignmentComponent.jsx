@@ -64,11 +64,11 @@ export default function AssignmentComponent(props) {
         <div className={"assignment-div"} onClick={() => setIsOpen(true)}>
             <div className={"assignment-header-div"}>
                 <p className={"assignment-header-text"}>
-                    {props.assignment.name}
+                    {props.assignment.id}
                 </p>
                 <p className={"assignment-header-subtext"}>
-                   Test
-                    {/*{courses.find(course => course.id === courseId)}*/}
+                   {/* Test */}
+                    {courses.find(course => course.id === courseId)}
                 </p>
             </div>
             <div className={"assignment-body-div"}>

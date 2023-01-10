@@ -3,7 +3,6 @@ import {useContext} from 'react';
 import {FilterContext} from './FilterProvider';
 
 function GetAssignments(boardId, columnId, filter) {
-    console.log("test " + boardId);
     const [assignments, setAssignments] = useState([]);
     // console.log(filter);
     const host = process.env.REACT_APP_API_HOST
