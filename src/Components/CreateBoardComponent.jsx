@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {AiFillPlusCircle, AiOutlineClose} from "react-icons/ai";
 import "./css/CreateBoardComponent.css";
 import {CourseContext} from "../Providers/CourseProvider";
@@ -36,7 +36,7 @@ export default function CreateBoardComponent() {
     const [columnName, setColumnName] = React.useState("");
     const [showModal, setShowModal] = React.useState(false);
     const [selectedCards, setSelectedCards] = React.useState([]);
-    const [board, setBoard] = useState({name: '', description: '', courses: []})
+    const [board, setBoard] = useState({name: '', description: '', courses: [], columns: []})
     const [submit, setSubmit] = useState(false);
     const boardProvider = useContext(BoardContext);
     const host = process.env.REACT_APP_API_HOST;
@@ -75,7 +75,7 @@ export default function CreateBoardComponent() {
         let description = e.target[1].value;
         let courses = selectedCards.map((course) => course.id);
 
-        setBoard({name, description, courses});
+        setBoard({name, description, courses, columns});
         setSubmit(true);
     }
 
@@ -84,8 +84,9 @@ export default function CreateBoardComponent() {
     }
 
     const removeColumn = (columnname) => {
-        var c = columns
-        var filtered = c.filter(function(re) {return re.columnName !== columnname; })
+        const filtered = columns.filter(function (re) {
+            return re.columnName !== columnname;
+        });
         setColumns(filtered);
     }
 
