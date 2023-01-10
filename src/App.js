@@ -7,16 +7,28 @@ import CourseProvider from "./Providers/CourseProvider";
 import BoardProvider from './Providers/BoardProvider';
 import TabbedNavigationComponent from './Components/TabbedNavigationComponent';
 import FilterProvider from './Providers/FilterProvider';
+import ColumnProvider from './Providers/ColumnProvider';
+import { useContext } from 'react';
+import {BoardContext} from "./Providers/BoardProvider";
 
+
+function LoadColumns() {
+  const boards = useContext(BoardContext);
+  return (
+    <ColumnProvider board={boards.selectedBoard}>
+      <FilterProvider>
+        <TabbedNavigationComponent navItems={[{name: "Board", component: <BoardComponent />}]}/>
+      </FilterProvider>
+      {/* <BoardComponent/> */}
+    </ColumnProvider>
+  );
+}
 function App() {
   return (
     <div data-testid="app-loaded">
         <BoardProvider>
           <CourseProvider>
-            <FilterProvider>
-              <TabbedNavigationComponent navItems={[{name: "Board", component: <BoardComponent />}]}/>
-            </FilterProvider>
-            {/* <BoardComponent/> */}
+            <LoadColumns/>
           </CourseProvider>
         </BoardProvider>
     </div>

@@ -41,86 +41,6 @@ Array.from({ length: count }, (v, k) => k).map((k) => ({
   content: `item ${k + offset}`
 }));
 
-// const reorder = (list, startIndex, endIndex, updateBoards) => {
-
-//     const result = Array.from(list);
-
-//     let id = result[startIndex].id;
-
-//     fetch(`${host}/Row/Reorder/${id}/${endIndex}`, {
-//       method: 'POST',
-//       headers: {
-//           'Content-Type': 'application/json'
-//       },
-//       body: JSON.stringify({})
-//     }).then(response => {
-//       if (response.status === 201) {
-//         console.log("Reorder successful");
-//         updateBoards();
-//       } else {
-//         console.log("Reorder failed");
-//         updateBoards();
-//       }
-//     });
-//     const [removed] = result.splice(startIndex, 1);
-    
-//     result.splice(endIndex, 0, removed);
-
-//     result.forEach((item, index) => {
-//         item.index = index;
-//     });
-
-//     return result;
-// };
-
-// /**
-// * Moves an item from one list to another list.
-// */
-// const move = (source, destination, droppableSource, droppableDestination, columns, updateBoards) => {
-//     console.log(columns)
-//     const sourceClone = Array.from(source);
-//     const destClone = Array.from(destination);
-
-//     let index = parseInt(droppableSource.droppableId.split("-")[1]);
-//     let id = columns[index].id
-//     let aid = source[droppableSource.index].id
-    
-//     fetch(`${host}/Row/Move/${aid}/${id}/${droppableDestination.index}`, {
-//       method: 'POST',
-//       headers: {
-//           'Content-Type': 'application/json'
-//       },
-//       body: JSON.stringify({})
-//     }).then(response => {
-//       if (response.status === 201) {
-
-//         console.log("moved successful");
-//         updateBoards();
-//         const [removed] = sourceClone.splice(droppableSource.index, 1);
-
-//         destClone.splice(droppableDestination.index, 0, removed);
-    
-//         const result = {};
-    
-//         sourceClone.forEach((item, index) => {
-//             item.index = index;
-//         });
-    
-//         destClone.forEach((item, index) => {
-//             item.index = index;
-//         });
-    
-//         result[droppableSource.droppableId] = sourceClone;
-//         result[droppableDestination.droppableId] = destClone;
-    
-//         return result;
-//       } else {
-//         console.log("moved failed");
-//         updateBoards();
-//       }
-//     });
-// };
-
 function LoadColumns(props) {
     const columns = useContext(ColumnContext).columns;
     const board = useContext(BoardContext);
@@ -158,7 +78,7 @@ function LoadColumns(props) {
           newState[sInd] = result;
           setState(newState);
       
-          updateBoards();
+          // updateBoards();
         } else {
           console.log("Reorder failed");
           updateBoards();
@@ -188,7 +108,7 @@ function LoadColumns(props) {
         if (response.status === 201) {
   
           console.log("moved successful");
-          updateBoards();
+          // updateBoards();
           const [removed] = sourceClone.splice(droppableSource.index, 1);
   
           destClone.splice(droppableDestination.index, 0, removed);
@@ -216,7 +136,7 @@ function LoadColumns(props) {
           return result;
         } else {
           console.log("moved failed");
-          updateBoards();
+          // updateBoards();
         }
       });
   };
@@ -294,7 +214,7 @@ function LoadAssignments(props) {
 
     return (
         <>
-            {props.assignments.map(assignment => (
+            {props.assignments.sort((a, b) => a.index > b.index ? 1 : -1).map(assignment => (
                 <TaskProvider assignment={assignment}>
                     <Draggable key={assignment.id} draggableId={assignment.id + ""} index={assignment.index}>
                         {(provided, snapshot) => (
@@ -338,9 +258,9 @@ export default function BoardComponent(props) {
         <div style={{display: "flex"}}>
             {/*<HeaderComponent />*/}
             {/* <NavbarComponent boards={boards.boards} selectedBoard={boards.selectedBoard} setSelectedBoard={boards.setSelectedBoard}/> */}
-            <ColumnProvider board={boards.selectedBoard}>
+            {/* <ColumnProvider board={boards.selectedBoard}> */}
                 <LoadColumns board={boards.selectedBoard}/>
-            </ColumnProvider>
+            {/* </ColumnProvider> */}
             {/* <HeaderBoardComponent/> */}
 
 
