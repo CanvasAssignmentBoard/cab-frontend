@@ -41,202 +41,85 @@ Array.from({ length: count }, (v, k) => k).map((k) => ({
   content: `item ${k + offset}`
 }));
 
-const reorder = (list, startIndex, endIndex, updateBoards) => {
+// const reorder = (list, startIndex, endIndex, updateBoards) => {
 
-    const result = Array.from(list);
+//     const result = Array.from(list);
 
-    let id = result[startIndex].id;
+//     let id = result[startIndex].id;
 
-    fetch(`${host}/Row/Reorder/${id}/${endIndex}`, {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({})
-    }).then(response => {
-      if (response.status === 201) {
-        console.log("Reorder successful");
-        updateBoards();
-      } else {
-        console.log("Reorder failed");
-        updateBoards();
-      }
-    });
-    const [removed] = result.splice(startIndex, 1);
+//     fetch(`${host}/Row/Reorder/${id}/${endIndex}`, {
+//       method: 'POST',
+//       headers: {
+//           'Content-Type': 'application/json'
+//       },
+//       body: JSON.stringify({})
+//     }).then(response => {
+//       if (response.status === 201) {
+//         console.log("Reorder successful");
+//         updateBoards();
+//       } else {
+//         console.log("Reorder failed");
+//         updateBoards();
+//       }
+//     });
+//     const [removed] = result.splice(startIndex, 1);
     
-    result.splice(endIndex, 0, removed);
+//     result.splice(endIndex, 0, removed);
 
-    result.forEach((item, index) => {
-        item.index = index;
-    });
+//     result.forEach((item, index) => {
+//         item.index = index;
+//     });
 
-    return result;
-};
+//     return result;
+// };
 
-/**
-* Moves an item from one list to another list.
-*/
-const move = (source, destination, droppableSource, droppableDestination, columns, updateBoards) => {
-    console.log(columns)
-    const sourceClone = Array.from(source);
-    const destClone = Array.from(destination);
+// /**
+// * Moves an item from one list to another list.
+// */
+// const move = (source, destination, droppableSource, droppableDestination, columns, updateBoards) => {
+//     console.log(columns)
+//     const sourceClone = Array.from(source);
+//     const destClone = Array.from(destination);
 
-    let index = parseInt(droppableSource.droppableId.split("-")[1]);
-    let id = columns[index].id
-    let aid = source[droppableSource.index].id
+//     let index = parseInt(droppableSource.droppableId.split("-")[1]);
+//     let id = columns[index].id
+//     let aid = source[droppableSource.index].id
     
-    fetch(`${host}/Row/Move/${aid}/${id}/${droppableDestination.index}`, {
-      method: 'POST',
-      headers: {
-          'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({})
-    }).then(response => {
-      if (response.status === 201) {
+//     fetch(`${host}/Row/Move/${aid}/${id}/${droppableDestination.index}`, {
+//       method: 'POST',
+//       headers: {
+//           'Content-Type': 'application/json'
+//       },
+//       body: JSON.stringify({})
+//     }).then(response => {
+//       if (response.status === 201) {
 
-        console.log("moved successful");
-        updateBoards();
-      } else {
-        console.log("moved failed");
-        updateBoards();
-      }
-    });
-    const [removed] = sourceClone.splice(droppableSource.index, 1);
+//         console.log("moved successful");
+//         updateBoards();
+//         const [removed] = sourceClone.splice(droppableSource.index, 1);
 
-    destClone.splice(droppableDestination.index, 0, removed);
-
-    const result = {};
-
-    sourceClone.forEach((item, index) => {
-        item.index = index;
-    });
-
-    destClone.forEach((item, index) => {
-        item.index = index;
-    });
-
-    result[droppableSource.droppableId] = sourceClone;
-    result[droppableDestination.droppableId] = destClone;
-
-    return result;
-};
-
-function LoadTestDragDrop() {
-    const [state, setState] = useState([getItems(10), getItems(5, 10)]);
-    const columns = useContext(ColumnContext).columns;
-
-    console.log(state);
-    function onDragEnd(result) {
-        const { source, destination } = result;
-
+//         destClone.splice(droppableDestination.index, 0, removed);
     
-        // dropped outside the list
-        if (!destination) {
-          return;
-        }
-        const sInd = +source.droppableId;
-        const dInd = +destination.droppableId;
+//         const result = {};
     
-        if (sInd === dInd) {
-          const items = reorder(state[sInd], source.index, destination.index);
-          const newState = [...state];
-          newState[sInd] = items;
-          setState(newState);
-        } else {
-          const result = move(state[sInd], state[dInd], source, destination, columns);
-          const newState = [...state];
-          newState[sInd] = result[sInd];
-          newState[dInd] = result[dInd];
+//         sourceClone.forEach((item, index) => {
+//             item.index = index;
+//         });
     
-          setState(newState.filter((group) => group.length));
-        }
-    }
-
-    return (
-        <div>
-          <button
-            type="button"
-            onClick={() => {
-              setState([...state, []]);
-            }}
-          >
-            Add new group
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setState([...state, getItems(1)]);
-            }}
-          >
-            Add new item
-          </button>
-          <div style={{ display: "flex" }}>
-            <DragDropContext onDragEnd={onDragEnd}>
-              {state.map((el, ind) => (
-                <Droppable key={ind} droppableId={`${ind}`}>
-                  {(provided, snapshot) => {
-                    // console.log(provided);
-                    return (
-                      <div
-                        ref={provided.innerRef}
-                        style={getListStyle(snapshot.isDraggingOver)}
-                        {...provided.droppableProps}
-                      >
-                        {el.map((item, index) => (
-                          <Draggable
-                            key={item.id}
-                            draggableId={item.id}
-                            index={index}
-                          >
-                            {(provided, snapshot) => {
-                            //   console.log(provided);
-                              return (
-                                <div
-                                  ref={provided.innerRef}
-                                  {...provided.draggableProps}
-                                  {...provided.dragHandleProps}
-                                  style={getItemStyle(
-                                    snapshot.isDragging,
-                                    provided.draggableProps.style
-                                  )}
-                                >
-                                  <div
-                                    style={{
-                                      display: "flex",
-                                      justifyContent: "space-around"
-                                    }}
-                                  >
-                                    {item.content}
-                                    <button
-                                      type="button"
-                                      onClick={() => {
-                                        const newState = [...state];
-                                        newState[ind].splice(index, 1);
-                                        setState(
-                                          newState.filter((group) => group.length)
-                                        );
-                                      }}
-                                    >
-                                      delete
-                                    </button>
-                                  </div>
-                                </div>
-                              );
-                            }}
-                          </Draggable>
-                        ))}
-                        {provided.placeholder}
-                      </div>
-                    );
-                  }}
-                </Droppable>
-              ))}
-            </DragDropContext>
-          </div>
-        </div>
-      );
-
-}
+//         destClone.forEach((item, index) => {
+//             item.index = index;
+//         });
+    
+//         result[droppableSource.droppableId] = sourceClone;
+//         result[droppableDestination.droppableId] = destClone;
+    
+//         return result;
+//       } else {
+//         console.log("moved failed");
+//         updateBoards();
+//       }
+//     });
+// };
 
 function LoadColumns(props) {
     const columns = useContext(ColumnContext).columns;
@@ -248,6 +131,96 @@ function LoadColumns(props) {
         return <></>;
     }
     
+    const reorder = (list, startIndex, endIndex, updateBoards, sInd) => {
+
+      const result = Array.from(list);
+  
+      let id = result[startIndex].id;
+  
+      fetch(`${host}/Row/Reorder/${id}/${endIndex}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({})
+      }).then(response => {
+        if (response.status === 201) {
+          console.log("Reorder successful");
+          const [removed] = result.splice(startIndex, 1);
+      
+          result.splice(endIndex, 0, removed);
+      
+          result.forEach((item, index) => {
+              item.index = index;
+          });
+    
+          const newState = {...state};
+          newState[sInd] = result;
+          setState(newState);
+      
+          updateBoards();
+        } else {
+          console.log("Reorder failed");
+          updateBoards();
+        }
+      });
+  };
+  
+  /**
+  * Moves an item from one list to another list.
+  */
+  const move = (source, destination, droppableSource, droppableDestination, columns, updateBoards, sInd, dInd) => {
+      console.log(columns)
+      const sourceClone = Array.from(source);
+      const destClone = Array.from(destination);
+  
+      let index = parseInt(droppableDestination.droppableId.split("-")[1]);
+      let id = columns[index].id
+      let aid = source[droppableSource.index].id
+      
+      fetch(`${host}/Row/Move/${aid}/${id}/${droppableDestination.index}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({})
+      }).then(response => {
+        if (response.status === 201) {
+  
+          console.log("moved successful");
+          updateBoards();
+          const [removed] = sourceClone.splice(droppableSource.index, 1);
+  
+          destClone.splice(droppableDestination.index, 0, removed);
+      
+          const result = {};
+      
+          sourceClone.forEach((item, index) => {
+              item.index = index;
+          });
+      
+          destClone.forEach((item, index) => {
+              item.index = index;
+          });
+      
+          result[droppableSource.droppableId] = sourceClone;
+          result[droppableDestination.droppableId] = destClone;
+
+          const newState = {...state};
+
+          newState[sInd] = result[sInd];
+          newState[dInd] = result[dInd];
+      
+          setState(newState);
+      
+          return result;
+        } else {
+          console.log("moved failed");
+          updateBoards();
+        }
+      });
+  };
+
     let listdata = [];
     columns.forEach((column) => {
         let assignments = [];
@@ -281,18 +254,9 @@ function LoadColumns(props) {
         const dInd = destination.droppableId;
     
         if (sInd === dInd) {
-            const items = reorder(state[sInd], source.index, destination.index, board.updateBoards);
-            const newState = {...state};
-            newState[sInd] = items;
-            setState(newState);
+            const items = reorder(state[sInd], source.index, destination.index, board.updateBoards, sInd);
         } else {
-            const result = move(state[sInd], state[dInd], source, destination, columns, board.updateBoards);
-            const newState = {...state};
-
-            newState[sInd] = result[sInd];
-            newState[dInd] = result[dInd];
-        
-            setState(newState);
+            const result = move(state[sInd], state[dInd], source, destination, columns, board.updateBoards, sInd, dInd);
         }
     }
 
