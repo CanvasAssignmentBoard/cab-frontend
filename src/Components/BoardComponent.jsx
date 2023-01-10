@@ -258,9 +258,9 @@ export default function BoardComponent(props) {
         <div style={{display: "flex"}}>
             {/*<HeaderComponent />*/}
             {/* <NavbarComponent boards={boards.boards} selectedBoard={boards.selectedBoard} setSelectedBoard={boards.setSelectedBoard}/> */}
-            {/* <ColumnProvider board={boards.selectedBoard}> */}
+             <ColumnProvider board={boards.selectedBoard}>
                 <LoadColumns board={boards.selectedBoard}/>
-            {/* </ColumnProvider> */}
+             </ColumnProvider>
             {/* <HeaderBoardComponent/> */}
 
 

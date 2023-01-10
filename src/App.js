@@ -11,24 +11,14 @@ import ColumnProvider from './Providers/ColumnProvider';
 import { useContext } from 'react';
 import {BoardContext} from "./Providers/BoardProvider";
 
-
-function LoadColumns() {
-  const boards = useContext(BoardContext);
-  return (
-    <ColumnProvider board={boards.selectedBoard}>
-      <FilterProvider>
-        <TabbedNavigationComponent navItems={[{name: "Board", component: <BoardComponent />}]}/>
-      </FilterProvider>
-      {/* <BoardComponent/> */}
-    </ColumnProvider>
-  );
-}
 function App() {
   return (
     <div data-testid="app-loaded">
         <BoardProvider>
           <CourseProvider>
-            <LoadColumns/>
+              <FilterProvider>
+                  <TabbedNavigationComponent navItems={[{name: "Board", component: <BoardComponent />}]}/>
+              </FilterProvider>
           </CourseProvider>
         </BoardProvider>
     </div>

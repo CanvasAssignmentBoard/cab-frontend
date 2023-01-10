@@ -2,10 +2,14 @@ import React, {useContext} from 'react';
 import {AiOutlineClose} from "react-icons/ai";
 import "./css/CreateAssignmentComponent.css";
 import {CourseContext} from "../Providers/CourseProvider";
+import {BoardContext} from "../Providers/BoardProvider";
+import {ColumnContext} from "../Providers/ColumnProvider";
 
 export default function CreateAssignmentComponent() {
     const [showModal, setShowModal] = React.useState(false);
     const courses = useContext(CourseContext);
+    const columnContext = useContext(ColumnContext);
+    const boardContext = useContext(BoardContext);
 
     const backendCall = (data) => {
         fetch('http://localhost:3000/assignment/create', {
@@ -18,6 +22,7 @@ export default function CreateAssignmentComponent() {
             .then((response) => response.json())
             .then((data) => {
                 console.log('Success:', data);
+                window.location.reload();
             })
             .catch((error) => {
                 console.error('Error:', error);
@@ -132,6 +137,7 @@ export default function CreateAssignmentComponent() {
                                                         }
                                                         }
                                                     );
+                                                    boardContext.updateBoards();
                                                     setShowModal(false);
                                                 }}
                                             >
