@@ -18,9 +18,9 @@ export default function NavbarListComponent(props){
             }
         </div>
         {showItems ? <div className={'boards'}>
-            {props.boards.map((board) => {return (
+            {props.boards.map((board, k) => {return (
 
-                <div className={board === props.selectedBoard ? 'board-selected-item' : 'board-item'} onClick={() => props.setSelectedBoard(board)}>
+                <div key={k} className={board === props.selectedBoard ? 'board-selected-item' : 'board-item'} onClick={() => props.setSelectedBoard(board)}>
                     {board.name}
                 </div>)})}
 

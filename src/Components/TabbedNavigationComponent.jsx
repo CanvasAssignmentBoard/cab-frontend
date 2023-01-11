@@ -46,7 +46,7 @@ function TabbedNavigationComponent(props) {
             <div>
                 <NavbarComponent/>
             </div>
-            <div className="px-2 m-0 Board-view-spacing">
+            <div className="px-2 m-0 Board-view-spacing" style={{width: '100vw'}}>
                 <div className="flex App-header-spacing" style={{justifyContent: 'space-between'}}>
                     <h2 className="w-3/4 Board-text mb-4"> {capitalizeFirstLetter(boards.selectedBoard.name)} | {capitalizeFirstLetter(selectedItem.name)}</h2>
                     <div className="flex Tab-box-right">
@@ -65,8 +65,10 @@ function TabbedNavigationComponent(props) {
                     }}>
                         <Tab.List className="flex p-1 space-x-1" style={{justifyContent: 'space-between'}}>
                             <div>
-                                {navItems.map((navItem) => (
-                                    <Tab className={({ selected }) => `pl-2 pr-2 tab-text font-medium leading-5 text-center text-gray-500 pb-4 ${(selectedItem === navItem) ? 'border-b border-black' : 'text-gray-400 hover:text-gray-500 hover:bg-gray-100 border-b border-transparent'}`}><TbLayoutColumns className="inline"/>{navItem.name}</Tab>
+                                {navItems.map((navItem, k) => (
+                                    <div key={k}>
+                                        <Tab className={({ selected }) => `pl-2 pr-2 tab-text font-medium leading-5 text-center text-gray-500 pb-4 ${(selectedItem === navItem) ? 'border-b border-black' : 'text-gray-400 hover:text-gray-500 hover:bg-gray-100 border-b border-transparent'}`}><TbLayoutColumns className="inline"/>{navItem.name}</Tab>
+                                    </div>
                                 ))}
                             </div>
                             {/* <Tab className={({ selected }) => `pl-2 pr-2 tab-text font-medium leading-5 text-center text-gray-500 pb-4 ${(boardState === "board") ? 'border-b border-black' : 'text-gray-400 hover:text-gray-500 hover:bg-gray-100 border-b border-transparent'}`}><TbLayoutColumns className="inline"/> Board View</Tab>
@@ -113,10 +115,12 @@ function TabbedNavigationComponent(props) {
                                     </div>
                         </Tab.List>
                         <Tab.Panels>
-                            {navItems.map((navItem) => (
-                                <Tab.Panel className="p-4">
-                                    {navItem.component}
-                                </Tab.Panel>
+                            {navItems.map((navItem, k) => (
+                                <div key={k}>
+                                    <Tab.Panel className="p-4">
+                                        {navItem.component}
+                                    </Tab.Panel>
+                                </div>
                             ))}
                             {/* <Tab.Panel className="p-4">
                                 <BoardComponent />

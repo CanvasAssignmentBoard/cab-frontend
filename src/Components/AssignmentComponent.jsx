@@ -53,12 +53,12 @@ export default function AssignmentComponent(props) {
 
     let courseId = 0;
     if (props.assignment.course_id === undefined) {
-        courseId = props.assignment.courseId;
+        courseId = props.assignment.courseID;
     } else {
         courseId = props.assignment.course_id;
     }
 
-    // console.log(courseId);
+    console.log(props.assignment);
     return (
         <>
         <div className={"assignment-div"} onClick={() => setIsOpen(true)}>
@@ -68,7 +68,7 @@ export default function AssignmentComponent(props) {
                 </p>
                 <p className={"assignment-header-subtext"}>
                    {/* Test */}
-                    {courses.find(course => course.id === courseId)}
+                    {courses.find(course => course.id === courseId).name}
                 </p>
             </div>
             <div className={"assignment-body-div"}>

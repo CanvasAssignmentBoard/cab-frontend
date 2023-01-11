@@ -23,7 +23,7 @@ function CoursePill(props) {
         >
             <div>
                 <img style={{width: '100%'}} className="course-card-img rounded-t-lg"
-                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlazg9JzvKxwwVUmzc2IQKqGYVJhXZM0-tWW_tzZc&s" alt=""/>
+                        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSlazg9JzvKxwwVUmzc2IQKqGYVJhXZM0-tWW_tzZc&s" alt=""/>
             </div>
             <div className="p-2 max-w-10">
                 <h5 className="mb-2 text-sm font-bold tracking-tight text-gray-900 selected:border-blue-900">{course.name}</h5>
@@ -32,7 +32,7 @@ function CoursePill(props) {
     );
 }
 export default function CreateBoardComponent() {
-    const [rows, setRows] = React.useState([]);
+    const [columns, setColumns] = React.useState([]);
     const [columnName, setColumnName] = React.useState("");
     const [showModal, setShowModal] = React.useState(false);
     const [selectedCards, setSelectedCards] = React.useState([]);
@@ -50,11 +50,11 @@ export default function CreateBoardComponent() {
                 },
                 body: JSON.stringify(board)
             })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                    boardProvider.updateBoards();
-                })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                boardProvider.updateBoards();
+            })
             setShowModal(false);
             setSubmit(false);
         }
@@ -74,20 +74,30 @@ export default function CreateBoardComponent() {
         let name = e.target[0].value;
         let description = e.target[1].value;
         let courses = selectedCards.map((course) => course.id);
+
+        const rows = jsonToStringArrayColumns(columns);
         setBoard({name, description, courses, rows});
-        console.log(board);
         setSubmit(true);
     }
 
     const createColumn = (columnname) => {
-        setRows([...rows, {columnName: columnname}]);
+        setColumns([...columns, {columnName: columnname}]);
     }
 
     const removeColumn = (columnname) => {
-        const filtered = rows.filter(function (re) {
+        const filtered = columns.filter(function (re) {
             return re.columnName !== columnname;
         });
-        setRows(filtered);
+        setColumns(filtered);
+    }
+
+    const jsonToStringArrayColumns = (json) => {
+        const a = []
+        for (let i = 0; i < json.length; i++) {
+            const n = json[i];
+            a.push(n.columnName)
+        }
+        return a;
     }
 
     return (
@@ -157,13 +167,13 @@ export default function CreateBoardComponent() {
                                                     type="button"
                                                     onClick={() => createColumn(columnName)}>
                                                     Create Column</button>
-                                                {rows.map((e) => {
+                                                {columns.map((e) => {
                                                     return (
                                                         <div className={"flex inline my-4 mr-4"}>
                                                             <button className={"flex inline text-black bg-slate-100 font-bold text-m mr-5 uppercase px-3 py-2 rounded shadow hover:shadow-lg text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150 "}
                                                                     onClick={() => removeColumn(e.columnName)}>X</button>
                                                             <label htmlFor="column1Name"className="block mb-2 text-sm font-large text-black text-xl flex inline">{e.columnName}</label>
-                                                            {/* <input type="text" name="column1Name" id="id"
+                                                   {/* <input type="text" name="column1Name" id="id"
                                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                                                            placeholder="Column 1 Name" value={e.columnName} required/>*/}
 

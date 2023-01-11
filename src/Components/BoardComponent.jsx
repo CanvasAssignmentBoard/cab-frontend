@@ -34,7 +34,6 @@ const getItemStyle = (isDragging, draggableStyle) => ({
     // width: 250
   });
   
-  // fake data generator
 const getItems = (count, offset = 0) =>
 Array.from({ length: count }, (v, k) => k).map((k) => ({
   id: `item-${k + offset}-${new Date().getTime()}`,
@@ -53,8 +52,18 @@ function LoadColumns(props) {
       if (c.columns != undefined) {
         let ld = [];
         c.columns.forEach((column, index) => {
-          // let a = [];
-          ld["column-" + c.columns.findIndex(c => c.id === column.id)] = column.assignments;
+          let as = [];
+          column.assignments.sort((a, b) => a.index < b.index ? 1 : -1).forEach((a, i) => {
+            as.push({
+              id: a.id,
+              name: a.name,
+              canvasId: a.canvasId,
+              courseID: a.courseID,
+              index: i
+            });
+          });
+            // a.push(assignment.id);
+          ld["column-" + c.columns.findIndex(c => c.id === column.id)] = as;
         });
         setListData(ld);
       }
@@ -168,32 +177,6 @@ function LoadColumns(props) {
         });
     };
 
-    // let listdata = [];
-    // columns.forEach((column) => {
-    //     let assignments = [];
-    //     let index = 0;
-    //     column.assignments.forEach((assignment) => {
-    //         assignments.push({...assignment, index: index});
-    //         index++;
-    //     });
-    //     listdata["column-" + columns.findIndex(c => c.id === column.id)] = assignments;
-    // });
-
-    // if (ld.length == 0) {
-    //   setListData(ld);
-    // }
-
-
-    // if (Object.keys(state).length == 0) {
-    //     if (columns.length != 0) {
-    //         setState(listdata);
-    //     }else {
-    //         return <></>;
-    //     }
-    // } else if (Object.keys(state).length != columns.length) {
-    //     setState(listdata);
-    // }
-
     function onDragEnd(result) {
         const { source, destination } = result;
     
@@ -212,13 +195,16 @@ function LoadColumns(props) {
         }
     }
 
+    const colLength = columns.length;
+
     return (
         <div style={{marginLeft: "2vw"}}>
             {/* <LoadTestDragDrop /> */}
-            <div data-testid="required-column-list" className={"board-div grid grid-cols-3 gap-12 items-stretch"}>
+            <div data-testid="required-column-list" className={`board-div flex gap-12 items-stretch`} style={{overflowX: "hidden", scrollbarWidth: 'none', msScrollbarWidth: 'none'}}>
                 <DragDropContext onDragEnd={onDragEnd}>
                     {columns.map((column, k) => (
-                        <ColumnComponent columnName={column.name}>
+                      <div key={k} style={{maxWidth: (100 / colLength) + "%", width: (100 / colLength) + "%"}}>
+                        <ColumnComponent width={(100 / colLength)} columnName={column.name}>
                             <Droppable key={column.id} droppableId={"column-" + columns.findIndex(c => c.id === column.id)}>
                                 {(provided, snapshot) => (
                                     <div
@@ -235,6 +221,7 @@ function LoadColumns(props) {
                                 
                             </Droppable>
                         </ColumnComponent>
+                      </div>
                     ))}
                 </DragDropContext>
             </div>
@@ -244,9 +231,14 @@ function LoadColumns(props) {
 function LoadAssignments(props) {
     // const assignments = useContext(AssignmentContext).assignments;
 
+    if (props.assignments == undefined) {
+        return <></>;
+    }
+
     return (
         <>
-            {props.assignments.sort((a, b) => a.index > b.index ? 1 : -1).map(assignment => (
+            {props.assignments.sort((a, b) => a.index > b.index ? 1 : -1).map((assignment, k) => (
+              <div key={k}>
                 <TaskProvider assignment={assignment}>
                     <Draggable key={assignment.id} draggableId={assignment.id + ""} index={assignment.index}>
                         {(provided, snapshot) => (
@@ -264,7 +256,8 @@ function LoadAssignments(props) {
                             </div>
                         )}
                     </Draggable>
-                </TaskProvider>                                
+                </TaskProvider>
+              </div>                      
             ))}
         </>
     );
@@ -287,7 +280,7 @@ export default function BoardComponent(props) {
 
 
     return (
-        <div style={{display: "flex"}}>
+        <div style={{minWidth: "100%"}}>
             {/*<HeaderComponent />*/}
             {/* <NavbarComponent boards={boards.boards} selectedBoard={boards.selectedBoard} setSelectedBoard={boards.setSelectedBoard}/> */}
              <ColumnProvider board={boards.selectedBoard}>
