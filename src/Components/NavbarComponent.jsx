@@ -4,6 +4,7 @@ import NavbarListComponent from "./NavbarListComponent";
 import CreateBoardComponent from "./CreateBoardComponent";
 import {useContext} from "react";
 import {BoardContext} from "../Providers/BoardProvider";
+import {ColumnContext} from "../Providers/ColumnProvider";
 export default function NavbarComponent(props){
     const boards = useContext(BoardContext);
 

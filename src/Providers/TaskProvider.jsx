@@ -11,7 +11,11 @@ function GetTasks(assignmentId) {
         fetch(`${host}/task/${assignmentId}`)
             .then(response => response.json())
             .then(data => {
-                setTasks(data);
+                if (data == false) {
+                    setTasks([]);
+                }else {
+                    setTasks(data);
+                }
             });
     }, [assignmentId, host]);
 
@@ -28,6 +32,7 @@ export default function TaskProvider(props) {
     }
 
     const tasks = GetTasks(props.assignment.id);
+
     return (
         <TaskContext.Provider value={tasks}>
             {props.children}

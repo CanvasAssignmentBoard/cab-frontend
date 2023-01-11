@@ -42,10 +42,39 @@ Array.from({ length: count }, (v, k) => k).map((k) => ({
 }));
 
 function LoadColumns(props) {
-    const columns = useContext(ColumnContext).columns;
+    const c = useContext(ColumnContext);
     const board = useContext(BoardContext);
+    const [listdata, setListData] = useState([]);
     
     const [state, setState] = useState([]);
+
+    useEffect(() => {
+      console.log(c)
+      if (c.columns != undefined) {
+        let ld = [];
+        c.columns.forEach((column, index) => {
+          // let a = [];
+          ld["column-" + c.columns.findIndex(c => c.id === column.id)] = column.assignments;
+        });
+        setListData(ld);
+      }
+    }, [c]);
+
+    useEffect(() => {
+      if (Object.keys(listdata).length > 0) {
+        setState(listdata);
+      }
+    }, [listdata]);
+
+    if (Object.keys(listdata).length === 0) {
+      return <></>;
+    }
+
+    if (c == undefined) {
+      return <></>;
+    }
+
+    const columns = c.columns;
 
     if (columns == undefined) {
         return <></>;
@@ -80,87 +109,90 @@ function LoadColumns(props) {
       
           // updateBoards();
         } else {
-          console.log("Reorder failed");
           updateBoards();
         }
       });
-  };
+    };
   
-  /**
-  * Moves an item from one list to another list.
-  */
-  const move = (source, destination, droppableSource, droppableDestination, columns, updateBoards, sInd, dInd) => {
-      console.log(columns)
-      const sourceClone = Array.from(source);
-      const destClone = Array.from(destination);
-  
-      let index = parseInt(droppableDestination.droppableId.split("-")[1]);
-      let id = columns[index].id
-      let aid = source[droppableSource.index].id
-      
-      fetch(`${host}/Row/Move/${aid}/${id}/${droppableDestination.index}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({})
-      }).then(response => {
-        if (response.status === 201) {
-  
-          console.log("moved successful");
-          // updateBoards();
-          const [removed] = sourceClone.splice(droppableSource.index, 1);
-  
-          destClone.splice(droppableDestination.index, 0, removed);
-      
-          const result = {};
-      
-          sourceClone.forEach((item, index) => {
-              item.index = index;
-          });
-      
-          destClone.forEach((item, index) => {
-              item.index = index;
-          });
-      
-          result[droppableSource.droppableId] = sourceClone;
-          result[droppableDestination.droppableId] = destClone;
+    /**
+    * Moves an item from one list to another list.
+    */
+    const move = (source, destination, droppableSource, droppableDestination, columns, updateBoards, sInd, dInd) => {
+        console.log(columns)
+        const sourceClone = Array.from(source);
+        const destClone = Array.from(destination);
+    
+        let index = parseInt(droppableDestination.droppableId.split("-")[1]);
+        let id = columns[index].id
+        let aid = source[droppableSource.index].id
+        
+        fetch(`${host}/Row/Move/${aid}/${id}/${droppableDestination.index}`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({})
+        }).then(response => {
+          if (response.status === 201) {
 
-          const newState = {...state};
+            // updateBoards();
+            const [removed] = sourceClone.splice(droppableSource.index, 1);
+    
+            destClone.splice(droppableDestination.index, 0, removed);
+        
+            const result = {};
+        
+            sourceClone.forEach((item, index) => {
+                item.index = index;
+            });
+        
+            destClone.forEach((item, index) => {
+                item.index = index;
+            });
+        
+            result[droppableSource.droppableId] = sourceClone;
+            result[droppableDestination.droppableId] = destClone;
 
-          newState[sInd] = result[sInd];
-          newState[dInd] = result[dInd];
-      
-          setState(newState);
-      
-          return result;
-        } else {
-          console.log("moved failed");
-          // updateBoards();
-        }
-      });
-  };
+            const newState = {...state};
 
-    let listdata = [];
-    columns.forEach((column) => {
-        let assignments = [];
-        let index = 0;
-        column.assignments.forEach((assignment) => {
-            assignments.push({...assignment, index: index});
-            index++;
+            newState[sInd] = result[sInd];
+            newState[dInd] = result[dInd];
+        
+            setState(newState);
+        
+            return result;
+          } else {
+            console.log("moved failed");
+            updateBoards();
+          }
         });
-        listdata["column-" + columns.findIndex(c => c.id === column.id)] = assignments;
-    });
+    };
 
-    console.log(listdata)
+    // let listdata = [];
+    // columns.forEach((column) => {
+    //     let assignments = [];
+    //     let index = 0;
+    //     column.assignments.forEach((assignment) => {
+    //         assignments.push({...assignment, index: index});
+    //         index++;
+    //     });
+    //     listdata["column-" + columns.findIndex(c => c.id === column.id)] = assignments;
+    // });
 
-    if (Object.keys(state).length == 0) {
-        if (columns.length != 0) {
-            setState(listdata);
-        }else {
-            return <></>;
-        }
-    }
+    // if (ld.length == 0) {
+    //   setListData(ld);
+    // }
+
+
+    // if (Object.keys(state).length == 0) {
+    //     if (columns.length != 0) {
+    //         setState(listdata);
+    //     }else {
+    //         return <></>;
+    //     }
+    // } else if (Object.keys(state).length != columns.length) {
+    //     setState(listdata);
+    // }
 
     function onDragEnd(result) {
         const { source, destination } = result;
