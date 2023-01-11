@@ -64,7 +64,7 @@ export default function AssignmentComponent(props) {
         <div className={"assignment-div"} onClick={() => setIsOpen(true)}>
             <div className={"assignment-header-div"}>
                 <p className={"assignment-header-text"}>
-                    {props.assignment.id}
+                    {props.assignment.name}
                 </p>
                 <p className={"assignment-header-subtext"}>
                    {/* Test */}

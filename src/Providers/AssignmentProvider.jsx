@@ -14,6 +14,7 @@ function GetAssignments(boardId, columnId, filter) {
             .then(response => response.json())
             .then(data => {
                 console.log(columnId);
+                console.log(data.rows);
                 console.log(data.rows.find(column => column.id === columnId).assignments);
                 setAssignments(data.rows.find(column => column.id === columnId).assignments.filter(assignment => { return (Date.parse(assignment.due_at) <= Date.parse(filter.deadline) || filter.deadline == null); }));
             });
