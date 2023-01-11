@@ -36,7 +36,7 @@ export default function CreateBoardComponent() {
     const [columnName, setColumnName] = React.useState("");
     const [showModal, setShowModal] = React.useState(false);
     const [selectedCards, setSelectedCards] = React.useState([]);
-    const [board, setBoard] = useState({name: '', description: '', courses: [], columns: []})
+    const [board, setBoard] = useState({name: '', description: '', courses: [], columnNames: []})
     const [submit, setSubmit] = useState(false);
     const boardProvider = useContext(BoardContext);
     const host = process.env.REACT_APP_API_HOST;
@@ -75,7 +75,10 @@ export default function CreateBoardComponent() {
         let description = e.target[1].value;
         let courses = selectedCards.map((course) => course.id);
 
-        setBoard({name, description, courses, columns});
+        const columnNames = jsonToStringArrayColumns(columns);
+        setBoard({name, description, courses, columnNames});
+        console.log("board submit herehdfivjhdfipgndfgipa")
+        console.log(board);
         setSubmit(true);
     }
 
@@ -88,6 +91,15 @@ export default function CreateBoardComponent() {
             return re.columnName !== columnname;
         });
         setColumns(filtered);
+    }
+
+    const jsonToStringArrayColumns = (json) => {
+        const a = []
+        for (let i = 0; i < json.length; i++) {
+            const n = json[i];
+            a.push(n.columnName)
+        }
+        return a;
     }
 
     return (
