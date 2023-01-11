@@ -77,8 +77,6 @@ export default function CreateBoardComponent() {
 
         const columnNames = jsonToStringArrayColumns(columns);
         setBoard({name, description, courses, columnNames});
-        console.log("board submit herehdfivjhdfipgndfgipa")
-        console.log(board);
         setSubmit(true);
     }
 
