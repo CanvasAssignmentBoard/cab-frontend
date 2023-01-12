@@ -1,11 +1,14 @@
 import React from 'react';
 
-function GetColumns(boardId, reloadColumns, setReloadColumns, setColumns, columns) {
+function GetColumns(board, reloadColumns, setReloadColumns, setColumns, columns) {
     // const [columns, setColumns] = React.useState([]);
     const host = process.env.REACT_APP_API_HOST;
     React.useEffect(() => {
+        if (board == null) {
+            return;
+        }
         // if (columns.length == 0 || reloadColumns) {
-            fetch(`${host}/board/${boardId}`)
+            fetch(`${host}/board/${board.id}`)
                 .then(response => response.json())
                 .then(data => {
                     console.log(data);
@@ -13,7 +16,7 @@ function GetColumns(boardId, reloadColumns, setReloadColumns, setColumns, column
                 });
             setReloadColumns(false);
         // }
-    }, [columns.length, host, reloadColumns, setReloadColumns, boardId]);
+    }, [columns.length, host, reloadColumns, setReloadColumns, board]);
     return columns;
 }
 
@@ -27,11 +30,11 @@ export default function ColumnProvider(props) {
         setReloadColumns(true);
     }
 
-    if (props.board == null) {
-        return <></>;
-    }
+    // if (props.board == null) {
+    //     return <></>;
+    // }
 
-    GetColumns(props.board.id, reloadColumns, setReloadColumns, setColumns, columns);
+    GetColumns(props.board, reloadColumns, setReloadColumns, setColumns, columns);
     console.log(columns);
 
     if (columns.length == 0) {

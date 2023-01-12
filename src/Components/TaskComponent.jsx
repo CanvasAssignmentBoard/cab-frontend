@@ -156,15 +156,24 @@ function TaskText(props) {
 }
 
 function TaskList(props) {
-    return (
-        <div className={"task-list-div"}>
-            {props.tasks.map(task => {
-                return (
-                    <Task task={task} assignment={props.assignment} create={props.create} setNewTasks={props.setNewTasks}/>
-                )
-            })}
-        </div>
-    )
+
+    try{
+        return (
+            <div className={"task-list-div"}>
+                {props.tasks.map(task => {
+                    return (
+                        <Task task={task} assignment={props.assignment} create={props.create} setNewTasks={props.setNewTasks}/>
+                    )
+                })}
+            </div>
+        )
+    }catch(error) {
+        return (
+            <div className={"task-list-div"}>
+                <p className={"task-list-text"}>No tasks</p>
+            </div>
+        )
+    }
 }
 
 export default function TaskComponent(props) {

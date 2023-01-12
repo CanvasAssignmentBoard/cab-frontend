@@ -75,6 +75,11 @@ function LoadColumns(props) {
       }
     }, [listdata]);
 
+    console.log(board)
+    if (board.selectedBoard == undefined) {
+      return <></>;
+    }
+
     if (Object.keys(listdata).length === 0) {
       return <></>;
     }

@@ -8,6 +8,7 @@ import {ColumnContext} from "../Providers/ColumnProvider";
 export default function NavbarComponent(props){
     const boards = useContext(BoardContext);
 
+    console.log(boards)
     const allTasks=[
         {name: 'To do', id: 1},
         {name: 'In Progress', id: 2},
@@ -20,6 +21,5 @@ export default function NavbarComponent(props){
             <CreateBoardComponent/>
         </div>
         <NavbarListComponent title={'Boards'} boards={boards.boards} selectedBoard={boards.selectedBoard} setSelectedBoard={boards.setSelectedBoard}/>
-        <NavbarListComponent title={'Tasks'} boards={allTasks}/>
     </div>
 }

@@ -37,10 +37,12 @@ function TabbedNavigationComponent(props) {
 
     console.log(filter.deadline);
 
-    if (boards.selectedBoard == null || boards.selectedBoard == undefined) {
-        return <></>
-    }
+    // if (boards.selectedBoard == null || boards.selectedBoard == undefined) {
+    //     return <></>
+    // }
 
+    let boardName = (boards.selectedBoard == null || boards.selectedBoard == undefined) ? "-" : boards.selectedBoard.name;
+    let itemName = (selectedItem == null || selectedItem == undefined) ? "-" : selectedItem.name;
     return (
         <div className={"flex"}>
             <div>
@@ -48,7 +50,7 @@ function TabbedNavigationComponent(props) {
             </div>
             <div className="px-2 m-0 Board-view-spacing" style={{width: '100vw'}}>
                 <div className="flex App-header-spacing" style={{justifyContent: 'space-between'}}>
-                    <h2 className="w-3/4 Board-text mb-4"> {capitalizeFirstLetter(boards.selectedBoard.name)} | {capitalizeFirstLetter(selectedItem.name)}</h2>
+                    <h2 className="w-3/4 Board-text mb-4"> {capitalizeFirstLetter(boardName)} | {capitalizeFirstLetter(itemName)}</h2>
                     <div className="flex Tab-box-right">
                         <AiOutlineSearch className="Search-icon m-1" size={25}/>
                         <AiOutlineBell className="Bell-icon m-1" size={25}/>
